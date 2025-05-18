@@ -24,7 +24,7 @@ export default createGlobalStyle`
     font-size: 16px;
   }
 
-  input, textarea, label, :placeholder-shown, .tag {
+  input, textarea, label, placeholder, span, .tag {
     font-family: "Roboto", sans-serif;
     outline: none;
   }

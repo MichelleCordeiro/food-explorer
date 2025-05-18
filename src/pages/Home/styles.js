@@ -8,8 +8,12 @@ export const Container = styled.div`
   display: grid;
   grid-template-rows: 104px 412px auto 77px;
   grid-template-areas:
-    'header'
-    'hero'
-    'content'
-    'footer';
+  'header'
+  'hero'
+  'content'
+  'footer';
+  `;
+
+export const Main = styled.div`
+  padding-top: 6.2rem;
 `;
