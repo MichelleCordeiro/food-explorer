@@ -6,7 +6,7 @@ export const Container = styled.div`
   padding-inline: 3.6rem 1.6rem;
 
   @media (min-width: 769px) {
-    padding-top: clamp(11rem, 1rem + 15vw, 16.4rem);
+    padding-top: clamp(8rem, 0.5rem + 14vw, 16.4rem);
 
     padding-inline: clamp(1.6rem, 1rem + 6vw, 2.8rem);
   }
@@ -68,7 +68,7 @@ export const Content = styled.div`
   @media (min-width: 769px) {
     max-width: 112rem;
     height: 26rem;
-    margin-top: clamp(8.4rem, 1.5rem + 4vw, 10.4rem);
+    margin-top: 10.4rem;
 
     display: flex;
 

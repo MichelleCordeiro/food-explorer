@@ -9,11 +9,13 @@ export const Container = styled.div`
   color: ${({ theme }) => theme.COLORS.LIGHT_500};
 
   border-radius: 0.8rem;
+  margin-bottom: 3.2rem;
 
   > input {
     width: 100%;
     height: 4.8rem;
     padding: 1.6rem 1.4rem;
+    font-size: 16px;
 
     border: 0;
     color: ${({ theme }) => theme.COLORS.LIGHT_400};

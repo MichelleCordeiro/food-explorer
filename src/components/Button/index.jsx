@@ -1,5 +1,6 @@
-import { Container } from './styles'
 import { PiReceipt } from 'react-icons/pi'
+
+import { Container } from './styles'
 
 export function Button({ title, loading, icon, ...rest }) {
   return (

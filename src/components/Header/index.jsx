@@ -46,5 +46,5 @@ export function Header() {
         </Logout>
       </Content>
     </Container>
-  );
+  )
 }

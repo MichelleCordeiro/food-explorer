@@ -1,3 +1,6 @@
+import heroDesktop from '../../assets/hero_desktop.png'
+import heroMobile from '../../assets/hero_mobile.png'
+
 import { Container, Content } from './styles'
 
 export function Hero({ title, loading, icon, ...rest }) {
@@ -6,13 +9,13 @@ export function Hero({ title, loading, icon, ...rest }) {
       <Content>
         <img
           className='desktop-only'
-          src='../../src/assets/hero_desktop.png'
-          alt='Imagem de macarons  coloridos flutuando'
+          src={heroDesktop}
+          alt='Imagem de macarons coloridos flutuando'
         />
         <img
           className='mobile-only'
-          src='../../src/assets/hero_mobile.png'
-          alt='Imagem de macarons  coloridos flutuando'
+          src={heroMobile}
+          alt='Imagem de macarons coloridos flutuando'
         />
 
         <div className='infos'>

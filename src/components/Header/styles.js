@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.header`
   width: 100%;
   position: fixed;
-  z-index: 10;
+  z-index: 100;
 
   display: flex;
   align-content: center;
@@ -85,8 +85,12 @@ export const Search = styled.div`
   width: 100%;
 
   #wrapper-input {
-    svg {
-      font-size: 2.4rem;
+    > div {
+      margin-bottom: 0;
+
+      svg {
+        font-size: 2.4rem;
+      }
     }
   }
 
