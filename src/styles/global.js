@@ -19,9 +19,14 @@ export default createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  body, button {
+  body {
     font-family: "Poppins", sans-serif;
     font-size: 16px;
+  }
+
+  button {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
   }
 
   input, textarea, label, placeholder, span, .tag {
