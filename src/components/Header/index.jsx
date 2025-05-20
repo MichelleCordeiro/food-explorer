@@ -1,27 +1,50 @@
-import { Container, Content, Logo, Search, Logout } from './styles'
+import { Logo } from '../Logo'
 import { Input } from '../Input'
 import { Button } from '../Button'
-import { PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
+import { LuMenu } from 'react-icons/lu'
+import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
+
+import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
 export function Header() {
   return (
     <Container>
       <Content>
-        <Logo>
-          <img src='../../src/assets/logo.png' alt='Logo do Food Explorer' />
-          <h1>Food Explorer</h1>
-        </Logo>
+        <ButtonIcon className='mobile-only'>
+          <div className='wrapper-icon'>
+            <LuMenu size={24} />
+          </div>
+        </ButtonIcon>
 
-        <Search>
-          <Input icon={PiMagnifyingGlass} placeholder='Busque por pratos ou ingredientes' />
+        <Logo />
+
+        <ButtonIcon className='btn-order-mobile mobile-only'>
+          <div className='wrapper-icon'>
+            <PiReceipt size={30} />
+            <div id='circle-red'>
+              <span>0</span>
+            </div>
+          </div>
+        </ButtonIcon>
+
+        <Search className='desktop-only'>
+          <div id='wrapper-input'>
+            <Input icon={PiMagnifyingGlass} placeholder='Busque por pratos ou ingredientes' />
+          </div>
         </Search>
 
-        <Button icon title='Pedidos (0)' />
+        <ButtonOrder className='desktop-only'>
+          <Button
+            id='btn-order-desktop'
+            icon
+            title='Pedidos (0)'
+          />
+        </ButtonOrder>
 
-        <Logout>
+        <Logout className='desktop-only'>
           <PiSignOut />
         </Logout>
       </Content>
     </Container>
-  )
+  );
 }

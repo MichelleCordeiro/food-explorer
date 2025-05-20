@@ -41,4 +41,18 @@ export default createGlobalStyle`
   button:hover, a:hover {
     filter: brightness(0.9)
   }
+
+  .desktop-only {
+    display: none;
+  }
+
+  @media (min-width: 769px) {
+    .mobile-only {
+      display: none;
+    }
+
+    .desktop-only {
+      display: block;
+    }
+  }
 `;

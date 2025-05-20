@@ -5,15 +5,10 @@ export const Container = styled.div`
   height: 100vh;
   margin: 0 auto;
 
-  display: grid;
-  grid-template-rows: 104px 412px auto 77px;
-  grid-template-areas:
-  'header'
-  'hero'
-  'content'
-  'footer';
-  `;
+  > main {
+    padding-block: 6.2rem 7.7rem;
+  }
 
-export const Main = styled.div`
-  padding-top: 6.2rem;
+  @media (min-width: 769px) {
+  }
 `;

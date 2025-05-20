@@ -1,55 +1,97 @@
 import styled from 'styled-components'
 
 export const Container = styled.header`
-  grid-area: header;
   width: 100%;
-  height: 10.4rem;
-  align-content: center;
+  position: fixed;
+  z-index: 10;
 
+  display: flex;
+  align-content: center;
   background-color: ${({ theme }) => theme.COLORS.DARK_600};
 `;
 
 export const Content = styled.div`
-  max-width: 112.2rem;
+  width: 42.8rem;
+  height: 11.4rem;
+
   margin: 0 auto;
+  padding-inline: clamp(1.6rem, 1rem + 6vw, 2.8rem);
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 3.2rem;
+  gap: clamp(1.4rem, 1rem + 1vw, 3.2rem);
 
-  > button {
-    max-width: 22.6rem;
+  @media (min-width: 769px) {
+    width: 112.2rem;
+    height: 10.4rem;
   }
 `;
 
-export const Logo = styled.a`
-  width: 18.6rem;
+export const ButtonIcon = styled.button`
+  border: none;
+  background: none;
+  position: relative;
 
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  > .wrapper-icon {
+    display: flex;
+    align-items: center;
 
-  > h1 {
-    width: inherit;
+    > svg {
+      color: ${({ theme }) => theme.COLORS.LIGHT_100};
+    }
 
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 2.4rem;
+    > #circle-red {
+      width: 2.2rem;
+      height: 2.2rem;
+      background: ${({ theme }) => theme.COLORS.TINTS_TOMATO_100};
+      border-radius: 50%;
+
+      position: absolute;
+      bottom: 1.6rem;
+      left: 1.6rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        color: ${({ theme }) => theme.COLORS.LIGHT_100};
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.2rem;
+      }
+    }
   }
+`;
 
-  > img {
-    width: 3rem;
-    height: 3rem;
+export const ButtonOrder = styled.div`
+  width: 100%;
+
+  @media (min-width: 769px) {
+    max-width: clamp(17rem, 1rem + 15vw, 21.6rem);
+
+    > #btn-order-desktop {
+      font-size: 1.4rem;
+
+      svg {
+        width: clamp(2.8rem, 1.5rem + 1vw, 3.2rem);
+      }
+    }
   }
 `;
 
 export const Search = styled.div`
-  display: flex;
-  flex-grow: 1;
+  width: 100%;
 
-  > input {
-    display: flex;
-    justify-self: center;
+  #wrapper-input {
+    svg {
+      font-size: 2.4rem;
+    }
+  }
+
+  @media (min-width: 769px) {
+    flex-grow: 1;
   }
 `;
 
@@ -59,6 +101,6 @@ export const Logout = styled.button`
 
   > svg {
     color: ${({ theme }) => theme.COLORS.LIGHT_100};
-    font-size: 32px;
+    font-size: clamp(3rem, 1.5rem + 1vw, 3.2rem);
   }
 `;
