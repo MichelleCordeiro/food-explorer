@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.button`
   width: 100%;
-  height: 4.8rem;
+  height: 3.2rem;
 
   background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_100};
   color: ${({ theme }) => theme.COLORS.LIGHT_100};
@@ -22,5 +22,9 @@ export const Container = styled.button`
 
   &:disabled {
     background-color: ${({ theme }) => theme.COLORS.pink};
+  }
+
+  @media (min-width: 769px) {
+    height: 4.8rem;
   }
 `;

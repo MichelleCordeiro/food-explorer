@@ -3,12 +3,13 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 100%;
   padding-top: 4.4rem;
-  padding-inline: 3.6rem 1.6rem;
+
+  padding-left: clamp(2.6rem, 1rem + 6vw, 3.6rem);
+  padding-right: clamp(0.6rem, 1rem + 6vw, 1.6rem);
 
   @media (min-width: 769px) {
     padding-top: clamp(8rem, 0.5rem + 14vw, 16.4rem);
-
-    padding-inline: clamp(1.6rem, 1rem + 6vw, 2.8rem);
+    padding-right: clamp(2rem, 1rem + 6vw, 3rem);
   }
 `;
 
@@ -66,7 +67,7 @@ export const Content = styled.div`
   }
 
   @media (min-width: 769px) {
-    max-width: 112rem;
+    max-width: calc(112rem - 2.8rem - 2.8rem);
     height: 26rem;
     margin-top: 10.4rem;
 

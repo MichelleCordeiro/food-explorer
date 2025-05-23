@@ -3,11 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.585rem;
-  gap: clamp(1rem, 0.1rem + 1vw, 1.585rem);
-
-  /* margin-top: 7.7rem; */
-
+  gap: clamp(1rem, 0.1rem + 1vw, 1.5rem);
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
   > p {
@@ -23,8 +19,8 @@ export const Container = styled.div`
     transition: transform 1s ease-out;
 
     > svg {
-      width: 2.7rem;
-      height: 2.7rem;
+      display: flex;
+      align-items: center;
 
       &:hover {
         transform: scale(1.1);
@@ -34,9 +30,5 @@ export const Container = styled.div`
         background-color: ${({ theme }) => theme.COLORS.DARK_800};
       }
     }
-  }
-
-  @media (min-width: 769px) {
-    gap: 1.4rem;
   }
 `;

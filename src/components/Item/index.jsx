@@ -1,24 +1,28 @@
+import imageItem from '../../assets/items/image1.png'
+import { QuantityItem } from '../QuantityItem'
 import { Button } from '../Button'
-import { Container } from './styles'
-import { PiMinus, PiPlus} from 'react-icons/pi'
+import { PiHeart } from 'react-icons/pi'
 
+import { Container, Cart } from './styles'
 
 export function Item({ title, description, price }) {
   return (
     <Container>
-      <h4>{title}</h4>
-      <span className='description'>{description}</span>
+      <div id='wrapper-heart'>
+        <PiHeart size={'2.4rem'} />
+      </div>
+
+      <img src={imageItem} alt='Foto do item' />
+
+      <h3>{title}</h3>
+      <span className='description desktop-only'>{description}</span>
       <span className='price'>{price}</span>
 
-      <div className='cart'>
-        <div className='quantity'>
-          <PiMinus size={18} />
-          <span>01</span>
-          <PiPlus size={18} />
-        </div>
+      <Cart className='cart'>
+        <QuantityItem sizeIcon={18} />
 
-        <Button title='incluir' />
-      </div>
+        <Button className='btn-cart' title='incluir' />
+      </Cart>
     </Container>
   )
 }
