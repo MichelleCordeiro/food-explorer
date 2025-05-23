@@ -24,7 +24,7 @@ export default createGlobalStyle`
     font-size: 16px;
   }
 
-  button {
+  button, .wrapper-tags span {
     font-family: "Poppins", sans-serif;
     font-size: 14px;
   }
