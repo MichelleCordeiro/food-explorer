@@ -28,7 +28,7 @@ export function SignOut() {
           <Button type='submit' title='Criar conta' />
         </Form>
 
-        <a href='#'>Já tenho conta</a>
+        <a href='/'>Já tenho conta</a>
       </Content>
     </Container>
   )
