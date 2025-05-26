@@ -35,14 +35,13 @@ export const Container = styled.div`
   }
 
   @media (min-width: 769px) {
-    /* width: 100%; */
+    width: 100%;
 
     > main {
-      padding-top: calc(11.4rem + 1.1rem);
-      padding-bottom: calc(7.7rem + 11.6rem);
-      padding-inline: clamp(1.6rem, 1rem + 6vw, 2.8rem);
+      max-width: 112.0rem;
 
-      /* max-width: 112.4rem; */
+      padding-top: calc(9.6rem + 4.1rem);
+      padding-bottom: calc(7.7rem + 11.6rem);
 
       > h1 {
         padding-block: 2.4rem 3.2rem;
@@ -52,10 +51,6 @@ export const Container = styled.div`
 `;
 
 export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-
   > div input {
     background-color: ${({ theme }) => theme.COLORS.DARK_800};
     border-radius: 0.8rem;
@@ -66,26 +61,79 @@ export const Form = styled.form`
     background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
   }
 
-  > .wrapper {
+  > .infos {
     display: flex;
     flex-direction: column;
-    gap: 1.6rem;
 
-    > label {
-      color: ${({ theme }) => theme.COLORS.LIGHT_400};
+    > .wrapper {
+      flex: 1;
+      margin-bottom: 2.4rem;
+
+      > label {
+        color: ${({ theme }) => theme.COLORS.LIGHT_400};
+      }
+
+      > div {
+        margin-top: 1.6rem;
+        margin-bottom: 0;
+      }
+
+      > .wrapper-items {
+        width: 100%;
+        padding: 0.8rem;
+
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.6rem;
+        background-color: ${({ theme }) => theme.COLORS.DARK_800};
+        border-radius: 0.8rem;
+
+        div input {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 769px) {
+    > .infos {
+      flex-direction: row;
+      align-items: flex-start;
+
+      gap: 3.2rem;
+      margin-bottom: 2.4rem;
+
+      > .wrapper-image {
+        flex: 0 0 22.9rem;
+        min-width: 20.8rem;
+      }
+
+      > .wrapper-name {
+        flex: 1 1 45%;
+      }
+
+      > .wrapper-category {
+        flex: 0 1 36.4rem;
+        min-width: 16rem;
+      }
+
+      > .wrapper-ingredients {
+        flex: 1 1 100%;
+      }
+
+      > .wrapper-price {
+        flex: 0 1 25.1rem;
+        min-width: 16rem;
+      }
     }
 
-    > div {
-      margin-bottom: 0;
-    }
-
-    > .wrapper-items {
+    > .wrapper-button {
+      width: 100%;
       display: flex;
-      flex-wrap: wrap;
-      gap: 1.6rem;
+      justify-content: end;
 
-      > div input {
-        background-color: transparent;
+      > #btn-salvar {
+        width: fit-content;
       }
     }
   }
@@ -98,7 +146,8 @@ export const Image = styled.div`
     border-radius: 0.5rem;
     cursor: pointer;
 
-    padding: 1.2rem 3.2rem;
+    padding-block: 1.2rem;
+    padding-inline: clamp(0.8rem, 0.5rem + 2vw, 3.2rem);
     margin-top: 1.6rem;
 
     display: flex;
@@ -129,6 +178,7 @@ export const Category = styled.div`
 
     > select {
       width: 100%;
+      height: 4.8rem;
       padding: 1.3rem 1.6rem;
       margin-top: 1.6rem;
 
@@ -151,7 +201,7 @@ export const Category = styled.div`
 
       position: absolute;
       right: 1.2rem;
-      bottom: 1.2rem;
+      bottom: 0;
 
       cursor: pointer;
       pointer-events: none;
