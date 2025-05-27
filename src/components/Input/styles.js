@@ -17,12 +17,16 @@ export const Container = styled.div`
     padding: 1.6rem 1.4rem;
     font-size: 16px;
 
-    border: 0;
     color: ${({ theme }) => theme.COLORS.LIGHT_400};
     background: transparent;
 
     &placeholder {
       color: ${({ theme }) => theme.COLORS.LIGHT_500};
+    }
+
+    &:focus {
+      border: 1px solid ${({ theme }) => theme.COLORS.LIGHT_500};
+      border-radius: 0.8rem;
     }
   }
 

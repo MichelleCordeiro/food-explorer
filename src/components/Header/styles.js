@@ -30,7 +30,6 @@ export const Content = styled.div`
 `;
 
 export const ButtonIcon = styled.button`
-  border: none;
   background: none;
   position: relative;
 
@@ -88,6 +87,16 @@ export const Search = styled.div`
     > div {
       margin-bottom: 0;
 
+      &:focus-within {
+        border: 1px solid ${({ theme }) => theme.COLORS.LIGHT_500};
+      }
+
+      > input {
+        &:focus {
+          border: none;
+        }
+      }
+
       svg {
         font-size: 2.4rem;
       }
@@ -100,7 +109,6 @@ export const Search = styled.div`
 `;
 
 export const Logout = styled.button`
-  border: none;
   background: none;
 
   > svg {

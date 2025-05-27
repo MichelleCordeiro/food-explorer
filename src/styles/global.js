@@ -17,9 +17,8 @@ export default createGlobalStyle`
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+    /* user-select: none; */
 
-  body {
     font-family: "Poppins", sans-serif;
     font-size: 16px;
   }
@@ -34,6 +33,10 @@ export default createGlobalStyle`
     outline: none;
   }
 
+  input, textarea {
+    border: none;
+  }
+
   a {
     text-decoration: none;
   }
@@ -41,6 +44,7 @@ export default createGlobalStyle`
   button, a {
     cursor: pointer;
     transition: filter 0.2s;
+    border: none;
   }
 
   button:hover, a:hover {

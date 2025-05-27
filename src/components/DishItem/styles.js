@@ -12,7 +12,6 @@ export const Container = styled.div`
   padding-right: 1.6rem;
 
   > button {
-    border: none;
     background: none;
     cursor: pointer;
 
@@ -28,7 +27,6 @@ export const Container = styled.div`
     padding: 0.8rem 0.8rem 0.8rem 1.6rem;
     font-size: 1.6rem;
 
-    border: none;
     outline: none;
     color: ${({ theme }) => theme.COLORS.LIGHT_400};
     background: transparent;

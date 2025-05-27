@@ -43,8 +43,6 @@ export const Dish = styled.div`
   }
 
   @media (min-width: 769px) {
-    /* width: 100%; */
-
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -130,6 +128,8 @@ export const DishContent = styled.div`
     }
 
     > .wrapper-quantity {
+      justify-content: flex-start;
+
       > .btn-order-details {
         max-width: 16.2rem;
         height: 4.8rem;
