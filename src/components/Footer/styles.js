@@ -27,13 +27,13 @@ export const Content = styled.div`
   > a {
     width: fit-content;
 
-    img {
+    > img {
       filter: grayscale(1);
       width: 2.2rem;
       height: 2rem;
     }
 
-    span {
+    > .words {
       color: ${({ theme }) => theme.COLORS.LIGHT_700};
       font-size: 1.526rem;
     }
@@ -49,12 +49,12 @@ export const Content = styled.div`
     font-size: 1.4rem;
 
     > a {
-      img {
+      > img {
         width: clamp(2.2rem, 1.5rem + 1vw, 3rem);
         height: clamp(2rem, 1.5rem + 1vw, 3rem);
       }
 
-      span {
+      > .words {
         color: ${({ theme }) => theme.COLORS.LIGHT_700};
         font-size: clamp(1.4rem, 1rem + 1vw, 2.4rem);
       }

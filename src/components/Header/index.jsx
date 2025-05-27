@@ -6,7 +6,7 @@ import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
-export function Header() {
+export function Header({ isAdmin }) {
   return (
     <Container>
       <Content>
@@ -16,16 +16,21 @@ export function Header() {
           </div>
         </ButtonIcon>
 
-        <Logo />
-
-        <ButtonIcon className='btn-order-mobile mobile-only'>
-          <div className='wrapper-icon'>
-            <PiReceipt size={30} />
-            <div id='circle-red'>
-              <span>0</span>
-            </div>
-          </div>
-        </ButtonIcon>
+        {!isAdmin ? (
+          <>
+            <Logo />
+            <ButtonIcon className='btn-order-mobile mobile-only'>
+              <div className='wrapper-icon'>
+                <PiReceipt size={30} />
+                <div id='circle-red'>
+                  <span>0</span>
+                </div>
+              </div>
+            </ButtonIcon>
+          </>
+        ) : (
+          <Logo isAdmin />
+        )}
 
         <Search className='desktop-only'>
           <div id='wrapper-input'>
@@ -34,11 +39,7 @@ export function Header() {
         </Search>
 
         <ButtonOrder className='desktop-only'>
-          <Button
-            id='btn-order-desktop'
-            icon
-            title='Pedidos (0)'
-          />
+          <Button id='btn-order-desktop' icon title='Pedidos (0)' />
         </ButtonOrder>
 
         <Logout className='desktop-only'>
@@ -46,5 +47,5 @@ export function Header() {
         </Logout>
       </Content>
     </Container>
-  )
+  );
 }
