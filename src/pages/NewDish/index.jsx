@@ -1,7 +1,7 @@
 import { Header } from '../../components/Header'
 import { ButtonText } from '../../components/ButtonText'
 import { Input } from '../../components/Input'
-import { DishItem } from '../../components/DishItem'
+import { DishIngredient } from '../../components/DishIngredient'
 import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
@@ -9,14 +9,14 @@ import { Footer } from '../../components/Footer'
 import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
 import { Container, Form, Image, Category } from './styles'
 
-export function New({ data, ...rest }) {
+export function NewDish({ data, isAdmin, ...rest }) {
   return (
     <Container {...rest}>
-      <Header />
+      <Header isAdmin/>
 
       <main>
         <header id='header-new'>
-          <ButtonText className='buttonText' icon title='voltar' />
+          <ButtonText icon title='voltar' />
           <h1>Novo prato</h1>
         </header>
 
@@ -62,11 +62,11 @@ export function New({ data, ...rest }) {
               <label htmlFor='ingredients'>Ingredientes</label>
 
               <div className='wrapper-items'>
-                {/* <DishItem value='Pão Naan' size={value?.length || 1} /> */}
-                <DishItem value='Pão Naan' size={6 || 1} />
-                <DishItem value='alface' size={3 || 1} />
-                <DishItem value='Tangerina' size={6 || 1} />
-                <DishItem placeholder='Adicionar' isNew size={5} />
+                {/* <DishIngredient value='Pão Naan' size={value?.length || 1} /> */}
+                <DishIngredient value='Pão Naan' size={6 || 1} />
+                <DishIngredient value='alface' size={3 || 1} />
+                <DishIngredient value='Tangerina' size={6 || 1} />
+                <DishIngredient placeholder='Adicionar' isNew size={5} />
               </div>
             </div>
 
@@ -82,7 +82,7 @@ export function New({ data, ...rest }) {
           </div>
 
           <div className='wrapper-button'>
-            <Button id='btn-salvar' type='submit' title='Salvar alterações' />
+            <Button id='btn-save' type='submit' title='Salvar alterações' />
           </div>
         </Form>
       </main>

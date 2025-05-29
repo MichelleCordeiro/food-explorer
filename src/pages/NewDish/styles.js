@@ -16,7 +16,7 @@ export const Container = styled.div`
 
       > button {
         font-size: 1.655rem;
-        font-weight: 600;
+        font-weight: 500;
 
         svg {
           color: ${({ theme }) => theme.COLORS.LIGHT_100};
@@ -38,10 +38,15 @@ export const Container = styled.div`
     width: 100%;
 
     > main {
-      max-width: 112.0rem;
+      max-width: 112rem;
 
       padding-top: calc(9.6rem + 4.1rem);
       padding-bottom: calc(7.7rem + 11.6rem);
+
+      > #header-new button {
+      font-size: 2.4rem;
+      font-weight: 600;
+      }
 
       > h1 {
         padding-block: 2.4rem 3.2rem;
@@ -55,10 +60,6 @@ export const Form = styled.form`
     background-color: ${({ theme }) => theme.COLORS.DARK_800};
     border-radius: 0.8rem;
     cursor: pointer;
-  }
-
-  > #btn-salvar {
-    background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
   }
 
   > .infos {
@@ -93,6 +94,12 @@ export const Form = styled.form`
         }
       }
     }
+  }
+
+  > .wrapper-button #btn-save {
+    font-size: 1.4rem;
+    font-weight: 500;
+    background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
   }
 
   @media (min-width: 769px) {
@@ -132,7 +139,7 @@ export const Form = styled.form`
       display: flex;
       justify-content: end;
 
-      > #btn-salvar {
+      > #btn-save {
         width: fit-content;
       }
     }

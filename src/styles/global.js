@@ -17,7 +17,7 @@ export default createGlobalStyle`
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* user-select: none; */
+    user-select: none;
 
     font-family: "Poppins", sans-serif;
     font-size: 16px;
