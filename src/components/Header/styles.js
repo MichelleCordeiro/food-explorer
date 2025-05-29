@@ -70,7 +70,7 @@ export const ButtonOrder = styled.div`
   @media (min-width: 769px) {
     max-width: clamp(17rem, 1rem + 15vw, 21.6rem);
 
-    > #btn-order-desktop {
+    > .btn-order-desktop {
       font-size: 1.4rem;
 
       svg {

@@ -1,10 +1,13 @@
+import { Link } from 'react-router-dom'
+
 import styled from 'styled-components'
 
-export const Container = styled.a`
+export const Container = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  color: ${({ theme }) => theme.COLORS.LIGHT_100};
 
   > img {
     width: 3rem;
@@ -15,6 +18,7 @@ export const Container = styled.a`
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-size: 2.1rem;
+    white-space: nowrap;
 
     display: flex;
     align-items: center;

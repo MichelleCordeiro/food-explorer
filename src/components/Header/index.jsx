@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom'
+import { LuMenu } from 'react-icons/lu'
+import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
+
 import { Logo } from '../Logo'
 import { Input } from '../Input'
 import { Button } from '../Button'
-import { LuMenu } from 'react-icons/lu'
-import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
@@ -18,7 +20,7 @@ export function Header({ isAdmin }) {
 
         {!isAdmin ? (
           <>
-            <Logo />
+            <Logo to='/' />
             <ButtonIcon className='btn-order-mobile mobile-only'>
               <div className='wrapper-icon'>
                 <PiReceipt size={30} />
@@ -29,7 +31,7 @@ export function Header({ isAdmin }) {
             </ButtonIcon>
           </>
         ) : (
-          <Logo isAdmin />
+          <Logo to='/' isAdmin />
         )}
 
         <Search className='desktop-only'>
@@ -39,7 +41,11 @@ export function Header({ isAdmin }) {
         </Search>
 
         <ButtonOrder className='desktop-only'>
-          <Button id='btn-order-desktop' icon title='Pedidos (0)' />
+          {!isAdmin ? (
+            <Button className='btn-order-desktop' icon title='Pedidos (0)' />
+          ) : (
+            <Button className='btn-order-desktop' title='Novo prato' />
+          )}
         </ButtonOrder>
 
         <Logout className='desktop-only'>

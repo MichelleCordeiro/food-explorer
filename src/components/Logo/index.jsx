@@ -2,9 +2,9 @@ import logo from '../../assets/logo.png'
 
 import { Container } from './styles'
 
-export function Logo({ isAdmin }) {
+export function Logo({ isAdmin, ...rest }) {
   return (
-    <Container id='logo'>
+    <Container id='logo' {...rest}>
       {!isAdmin ? (
         <>
           <img src={logo} alt='Logo do Food Explorer' />

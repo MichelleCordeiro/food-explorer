@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <Container>
       <Content>
-        <Logo />
+        <Logo to='/' />
 
         <span>© 2023 - Todos os direitos reservados.</span>
       </Content>
