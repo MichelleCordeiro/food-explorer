@@ -1,260 +1,211 @@
+import imageItem from '../../assets/items/image1.png'
+
 import { Header } from '../../components/Header'
 import { Hero } from '../../components/Hero'
 import { Section } from '../../components/Section'
+import { Carousel } from '../../components/Carousel'
 import { Item } from '../../components/Item'
-import { ButtonText } from '../../components/ButtonText'
 import { Footer } from '../../components/Footer'
-import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
 
-import { Container, Carousel } from './styles'
+import { Container } from './styles'
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, A11y, EffectFade } from 'swiper/modules'
-import 'swiper/css/navigation'
-import 'swiper/css/effect-fade'
-import 'swiper/css'
+export function Home({ isAdmin, ...rest }) {
+  isAdmin = true
+  // isAdmin = false
 
-export function Home() {
   return (
-    <Container>
-      <Header />
+    <Container {...rest}>
+      {isAdmin ? <Header isAdmin /> : <Header />}
       <Hero />
 
       <main>
         <Section title='Refeições'>
-          <Carousel className='wrapper-carousel'>
-            <Swiper
-              className='swiper'
-              modules={[Navigation, A11y, EffectFade]}
-              // onSlideChange={() => console.log('slide change')}
-              // onSwiper={swiper => console.log(swiper)}
-              navigation={{
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-              }}
-              slidesPerView={2}
-              spaceBetween={80}
-              grabCursor
-              loop
-              breakpoints={{
-                420: {
-                  slidesPerView: 2,
-                  spaceBetween: 16
-                },
-                767: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 220
-                },
-                1000: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 60
-                }
-              }}
-            >
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-            </Swiper>
-
-            <ButtonText className='swiper-button-prev desktop-only'>
-              <PiCaretLeftBold />
-            </ButtonText>
-            <ButtonText className='swiper-button-next desktop-only'>
-              <PiCaretRightBold />
-            </ButtonText>
-          </Carousel>
+          <Carousel
+            id='meals'
+            items={[
+              <Item
+                isAdmin={isAdmin}
+                key='meal-1'
+                data={{
+                  id: 'meal-1',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='meal-2'
+                data={{
+                  id: 'meal-2',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='meal-3'
+                data={{
+                  id: 'meal-3',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='meal-4'
+                data={{
+                  id: 'meal-4',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='meal-5'
+                data={{
+                  id: 'meal-5',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />
+            ]}
+          />
         </Section>
 
         <Section title='Sobremesas'>
-          <Carousel className='wrapper-carousel'>
-            <Swiper
-              className='swiper'
-              modules={[Navigation, A11y, EffectFade]}
-              navigation={{
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-              }}
-              slidesPerView={2}
-              spaceBetween={80}
-              grabCursor
-              loop
-              breakpoints={{
-                420: {
-                  slidesPerView: 2,
-                  spaceBetween: 16
-                },
-                767: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 220
-                },
-                1000: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 60
-                }
-              }}
-            >
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-            </Swiper>
-
-            <ButtonText className='swiper-button-prev desktop-only'>
-              <PiCaretLeftBold />
-            </ButtonText>
-            <ButtonText className='swiper-button-next desktop-only'>
-              <PiCaretRightBold />
-            </ButtonText>
-          </Carousel>
+          <Carousel
+            id='desserts'
+            items={[
+              <Item
+                isAdmin={isAdmin}
+                key='dessert-1'
+                data={{
+                  id: 'dessert-1',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='dessert-2'
+                data={{
+                  id: 'dessert-2',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='dessert-3'
+                data={{
+                  id: 'dessert-3',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='dessert-4'
+                data={{
+                  id: 'dessert-4',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='dessert-5'
+                data={{
+                  id: 'dessert-5',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />
+            ]}
+          />
         </Section>
 
         <Section title='Bebidas'>
-          <Carousel className='wrapper-carousel'>
-            <Swiper
-              className='swiper'
-              modules={[Navigation, A11y, EffectFade]}
-              navigation={{
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-              }}
-              slidesPerView={2}
-              spaceBetween={80}
-              grabCursor
-              loop
-              breakpoints={{
-                420: {
-                  slidesPerView: 2,
-                  spaceBetween: 16
-                },
-                767: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 220
-                },
-                1000: {
-                  slidesPerView: 3.5,
-                  spaceBetween: 60
-                }
-              }}
-            >
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Spaguetti Gambe'
-                  description='Massa fresca com camarões e pesto.'
-                  price={'R$ 79.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-
-              <SwiperSlide className='swiper-slide'>
-                <Item
-                  title='Torradas de Parma'
-                  description='Presunto de parma e rúcula em um pão com fermentação natural.'
-                  price={'R$ 25.97'}
-                />
-              </SwiperSlide>
-            </Swiper>
-
-            <ButtonText className='swiper-button-prev desktop-only'>
-              <PiCaretLeftBold />
-            </ButtonText>
-            <ButtonText className='swiper-button-next desktop-only'>
-              <PiCaretRightBold />
-            </ButtonText>
-          </Carousel>
+          <Carousel
+            id='drinks'
+            items={[
+              <Item
+                isAdmin={isAdmin}
+                key='drink-1'
+                data={{
+                  id: 'drink-1',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='drink-2'
+                data={{
+                  id: 'drink-2',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='drink-3'
+                data={{
+                  id: 'drink-3',
+                  src: imageItem,
+                  title: 'Spaguetti Gambe',
+                  description: 'Massa fresca com camarões e pesto.',
+                  price: 'R$ 79.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='drink-4'
+                data={{
+                  id: 'drink-4',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />,
+              <Item
+                isAdmin={isAdmin}
+                key='drink-5'
+                data={{
+                  id: 'drink-5',
+                  src: imageItem,
+                  title: 'Torradas de Parma',
+                  description: 'Presunto de parma e rúcula em um pão com fermentação natural.',
+                  price: 'R$ 25.97'
+                }}
+              />
+            ]}
+          />
         </Section>
       </main>
 
