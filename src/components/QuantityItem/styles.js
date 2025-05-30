@@ -6,7 +6,7 @@ export const Container = styled.div`
   gap: clamp(1rem, 0.1rem + 1vw, 1.5rem);
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
 
-  > p {
+  > span {
     font-size: 2.263rem;
     font-family: 'Roboto', sans-serif;
   }

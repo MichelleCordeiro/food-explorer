@@ -53,5 +53,5 @@ export function Header({ isAdmin }) {
         </Logout>
       </Content>
     </Container>
-  );
+  )
 }

@@ -88,5 +88,5 @@ export function NewDish({ data, isAdmin, ...rest }) {
       </main>
       <Footer />
     </Container>
-  );
+  )
 }

@@ -12,5 +12,5 @@ export function DishIngredient({ isNew, value, onClick, ...rest }) {
         {isNew ? <PiPlus /> : <IoMdClose />}
       </button>
     </Container>
-  );
+  )
 }
