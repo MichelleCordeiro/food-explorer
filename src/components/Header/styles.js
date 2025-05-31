@@ -7,7 +7,7 @@ export const Container = styled.header`
 
   display: flex;
   align-content: center;
-  background-color: ${({ theme }) => theme.COLORS.DARK_600};
+  background-color: ${({ theme }) => theme.COLORS.DARK_700};
 `;
 
 export const Content = styled.div`
@@ -15,12 +15,12 @@ export const Content = styled.div`
   height: 11.4rem;
 
   margin: 0 auto;
+  padding-block: 5.6rem 2.4rem;
   padding-inline: clamp(1.6rem, 1rem + 6vw, 2.8rem);
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 3.2rem;
   gap: clamp(1.4rem, 1rem + 1vw, 3.2rem);
 
   @media (min-width: 769px) {

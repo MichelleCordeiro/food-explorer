@@ -1,38 +1,36 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { LuMenu } from 'react-icons/lu'
 import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
 
 import { Logo } from '../Logo'
 import { Input } from '../Input'
 import { Button } from '../Button'
+import { Menu } from '../Menu'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
 export function Header({ isAdmin }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
     <Container>
       <Content>
         <ButtonIcon className='mobile-only'>
-          <div className='wrapper-icon'>
+          <div className='wrapper-icon' onClick={() => setIsMenuOpen(true)}>
             <LuMenu size={24} />
           </div>
         </ButtonIcon>
 
-        {!isAdmin ? (
-          <>
-            <Logo to='/' />
-            <ButtonIcon className='btn-order-mobile mobile-only'>
-              <div className='wrapper-icon'>
-                <PiReceipt size={30} />
-                <div id='circle-red'>
-                  <span>0</span>
-                </div>
-              </div>
-            </ButtonIcon>
-          </>
-        ) : (
-          <Logo to='/' isAdmin />
-        )}
+        <Logo to='/' isAdmin={isAdmin} />
+
+        <ButtonIcon className='btn-order-mobile mobile-only'>
+          <div className='wrapper-icon'>
+            <PiReceipt size={30} />
+            <div id='circle-red'>
+              <span>0</span>
+            </div>
+          </div>
+        </ButtonIcon>
 
         <Search className='desktop-only'>
           <div id='wrapper-input'>
@@ -51,6 +49,12 @@ export function Header({ isAdmin }) {
         <Logout className='desktop-only'>
           <PiSignOut />
         </Logout>
+
+        <Menu
+          isAdmin={isAdmin}
+          isOpen={isMenuOpen}
+          setIsOpen={setIsMenuOpen}
+        />
       </Content>
     </Container>
   )
