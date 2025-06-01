@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { Input } from '../Input'
 import { ButtonText } from '../ButtonText'
 import { PiMagnifyingGlassBold, PiX } from 'react-icons/pi'

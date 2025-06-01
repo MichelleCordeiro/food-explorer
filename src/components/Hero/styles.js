@@ -22,7 +22,7 @@ export const Content = styled.div`
 
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
   background: ${({ theme }) => theme.COLORS.GRADIENT_200};
-  border-radius: 3px;
+  border-radius: 0.3rem;
 
   position: relative;
   overflow: visible;

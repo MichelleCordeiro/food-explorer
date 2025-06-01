@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LuMenu } from 'react-icons/lu'
 import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
 
@@ -11,6 +11,18 @@ import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './s
 
 export function Header({ isAdmin }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('no-scroll')
+    } else {
+      document.body.classList.remove('no-scroll')
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll')
+    }
+  }, [isMenuOpen])
 
   return (
     <Container>

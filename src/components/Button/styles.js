@@ -10,11 +10,11 @@ export const Container = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.8rem;
 
   border: 0;
-  border-radius: 5px;
-  padding: 0px 24px;
+  border-radius: 0.5rem;
+  padding: 0rem 2.4rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_200};

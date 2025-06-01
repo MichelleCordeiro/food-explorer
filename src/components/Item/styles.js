@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   color: ${({ theme }) => theme.COLORS.LIGHT_300};
   background-color: ${({ theme }) => theme.COLORS.DARK_200};
-  border: 2px solid ${({ theme }) => theme.COLORS.DARK_500};
+  border: 1px solid ${({ theme }) => theme.COLORS.DARK_500};
 
   width: 21rem;
   margin: 0 auto;
@@ -12,6 +12,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   gap: 1.2rem;
   position: relative;
 
@@ -38,7 +39,8 @@ export const Container = styled.div`
   }
 
   @media (min-width: 769px) {
-    width: 30.4rem;
+    width: clamp(28rem, 1rem + 15vw, 30.4rem);
+
     gap: 1.5rem;
 
     > h3 {
