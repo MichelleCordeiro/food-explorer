@@ -6,7 +6,7 @@ import { Input } from '../../components/Input'
 
 import { Container, Content, Form } from './styles'
 
-export function SignOut() {
+export function SignUp() {
   return (
     <Container>
       <Content>
