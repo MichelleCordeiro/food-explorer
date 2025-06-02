@@ -98,19 +98,28 @@ export const DishContent = styled.div`
     gap: 1.6rem;
 
     > .btn-order-details {
+      height: 4.8rem;
+      font-size: 1.4rem;
+    }
+
+    > .btn-order-user-mobile {
       max-width: 18.8rem;
-      height: 3.79rem;
+      height: 3.786rem;
       font-size: 0.95rem;
 
       svg {
         width: 2.2rem;
+        height: 2.2rem;
       }
+    }
+
+    > .btn-order-admin-mobile {
+      max-width: 100%;
     }
   }
 
   @media (min-width: 769px) {
     max-width: 68.7rem;
-
     flex-direction: column;
 
     > h1 {
@@ -131,13 +140,22 @@ export const DishContent = styled.div`
       justify-content: flex-start;
 
       > .btn-order-details {
-        max-width: 16.2rem;
-        height: 4.8rem;
-        font-size: 1.4rem;
-
         svg {
           display: none;
         }
+      }
+
+      > .btn-order-user-desktop {
+        max-width: 16.2rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      > .btn-order-admin-desktop {
+        max-width: 13.1rem;
+
+        display: flex;
+        justify-content: center;
       }
     }
   }

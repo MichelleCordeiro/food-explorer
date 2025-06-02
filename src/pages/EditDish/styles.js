@@ -97,7 +97,6 @@ export const Form = styled.form`
   }
 
   > .wrapper-button {
-    /* width: 100%; */
     font-size: 1.4rem;
     font-weight: 500;
 
@@ -191,7 +190,7 @@ export const Image = styled.div`
 
       font-family: 'Poppins', sans-serif;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 1.4rem;
       line-height: 104%;
     }
 

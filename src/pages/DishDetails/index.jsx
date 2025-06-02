@@ -8,14 +8,16 @@ import { Footer } from '../../components/Footer'
 
 import { Container, Dish, DishContent } from './styles'
 
-export function DishDetails({ data, ...rest }) {
+export function DishDetails({ data, isAdmin, ...rest }) {
+  isAdmin = true
+
   return (
     <Container {...rest}>
-      <Header />
+      {isAdmin ? <Header isAdmin /> : <Header />}
 
       <main>
         <div className='wrapper-button'>
-          <ButtonText className='buttonText' icon title='voltar' />
+          <ButtonText icon title='voltar' />
         </div>
 
         <Dish className='dish'>
@@ -37,14 +39,42 @@ export function DishDetails({ data, ...rest }) {
               <IngredientTag title='tomate' />
             </div>
 
-            <div className='wrapper-quantity'>
-              <QuantityItem />
-              <Button
-                className='btn-order-details'
-                icon
-                title='pedir ∙ R$ 25,00'
-              />
-            </div>
+            {isAdmin ? (
+              <>
+                <div className='wrapper-quantity'>
+                  <Button
+                    className='mobile-only
+                    btn-order-details
+                    btn-order-admin-mobile'
+                    title='Editar prato'
+                  />
+                  <Button
+                    className='desktop-only btn-order-details
+                    btn-order-admin-desktop'
+                    title='Editar prato'
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className='wrapper-quantity'>
+                  <QuantityItem />
+                  <Button
+                    className='mobile-only
+                    btn-order-details
+                    btn-order-user-mobile'
+                    icon
+                    title='pedir ∙ R$ 25,00'
+                  />
+                  <Button
+                    className='desktop-only btn-order-details
+                    btn-order-user-desktop'
+                    icon
+                    title='incluir ∙ R$ 25,00'
+                  />
+                </div>
+              </>
+            )}
           </DishContent>
         </Dish>
       </main>

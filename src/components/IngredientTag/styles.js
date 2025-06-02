@@ -7,7 +7,6 @@ export const Container = styled.span`
 
   border-radius: 0.5rem;
   padding: 0.4rem 0.8rem;
-  /* margin-right: 2.4rem; */
 
   &:hover {
     background-color: ${({ theme }) => theme.COLORS.DARK_900};
