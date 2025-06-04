@@ -10,13 +10,18 @@ import { useAuth } from '../../hooks/auth'
 import { Container, Content, Form } from './styles'
 
 export function SignIn() {
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const { signIn } = useAuth()
 
-  function handleSignIn() {
-    signIn({ email, password })
+  async function handleSignIn(event) {
+    event.preventDefault()
+    setLoading(true)
+
+    await signIn({ email, password })
+    setLoading(false)
   }
 
   return (
@@ -24,7 +29,7 @@ export function SignIn() {
       <Content>
         <Logo to='/' />
 
-        <Form action=''>
+        <Form onSubmit={handleSignIn}>
           <label htmlFor='email'>E-mail</label>
           <Input
             type='email'
@@ -44,8 +49,10 @@ export function SignIn() {
           />
 
           <Button
-            title='Entrar'
-            onClick={handleSignIn}
+            title="Entrar"
+            loading={loading}
+            type="submit"
+            disabled={loading}
           />
         </Form>
 

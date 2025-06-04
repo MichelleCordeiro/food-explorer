@@ -16,18 +16,21 @@ export function SignUp() {
 
   const navigate = useNavigate()
 
-  function handleSignUp() {
-    if(!name || !email || !password) {
-      return alert("Preencha todos os campos!")
+  function handleSignUp(event) {
+    event.preventDefault()
+
+    if (!name || !email || !password) {
+      return alert('Preencha todos os campos!')
     }
 
-    api.post('/users', { name, email, password })
+    api
+      .post('/users', { name, email, password })
       .then(() => {
         alert('Usuário cadastrado com sucesso!')
         navigate('/')
       })
       .catch(error => {
-        if(error.response) {
+        if (error.response) {
           alert(error.response.data.message)
         } else {
           alert('Não foi possível cadastrar')
@@ -40,7 +43,7 @@ export function SignUp() {
       <Content>
         <Logo to='/' />
 
-        <Form action=''>
+        <Form onSubmit={handleSignUp}>
           <label htmlFor='name'>Seu nome</label>
           <Input
             type='name'
@@ -68,7 +71,10 @@ export function SignUp() {
             onChange={e => setPassword(e.target.value)}
           />
 
-          <Button title='Criar conta' onClick={handleSignUp} />
+          <Button
+            type='submit'
+            title='Criar conta'
+          />
         </Form>
 
         <Link to='/'>Já tenho conta</Link>
