@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { api } from '../services/api'
-// import { json } from 'react-router-dom'
 
 export const AuthContext = createContext({})
 
@@ -15,9 +14,10 @@ function AuthProvider({ children }) {
       localStorage.setItem('@foodExplorer:user', JSON.stringify(user))
       localStorage.setItem('@foodExplorer:token', token)
 
-      api.defaults.headers.authorization = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       setData({ user, token })
+
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message)
@@ -27,12 +27,19 @@ function AuthProvider({ children }) {
     }
   }
 
+function signOut() {
+  localStorage.removeItem('@foodExplorer:token')
+  localStorage.removeItem('@foodExplorer:user')
+
+  setData({})
+}
+
   useEffect(() => {
     const token = localStorage.getItem('@foodExplorer:token')
     const user = localStorage.getItem('@foodExplorer:user')
 
     if (token && user) {
-      api.defaults.headers.authorization = `Bearer ${token}`
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
       setData({
         token,
@@ -45,7 +52,8 @@ function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         signIn,
-        user: data.user
+        user: data.user,
+        signOut
       }}
     >
       {children}

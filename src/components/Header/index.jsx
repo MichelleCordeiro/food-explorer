@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { LuMenu } from 'react-icons/lu'
 import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
+
+import { useAuth } from '../../hooks/auth'
 
 import { Logo } from '../Logo'
 import { Input } from '../Input'
@@ -11,6 +15,14 @@ import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './s
 
 export function Header({ isAdmin }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const { signOut } = useAuth()
+  const navigate = useNavigate()
+
+  function handleSignOut() {
+    signOut()
+    navigate('/')
+  }
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -58,15 +70,14 @@ export function Header({ isAdmin }) {
           )}
         </ButtonOrder>
 
-        <Logout className='desktop-only'>
+        <Logout
+          className='desktop-only'
+          onClick={handleSignOut}
+        >
           <PiSignOut />
         </Logout>
 
-        <Menu
-          isAdmin={isAdmin}
-          isOpen={isMenuOpen}
-          setIsOpen={setIsMenuOpen}
-        />
+        <Menu isAdmin={isAdmin} isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </Content>
     </Container>
   )

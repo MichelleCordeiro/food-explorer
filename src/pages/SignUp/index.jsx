@@ -16,7 +16,7 @@ export function SignUp() {
 
   const navigate = useNavigate()
 
-  function handleSighUp() {
+  function handleSignUp() {
     if(!name || !email || !password) {
       return alert("Preencha todos os campos!")
     }
@@ -68,7 +68,7 @@ export function SignUp() {
             onChange={e => setPassword(e.target.value)}
           />
 
-          <Button title='Criar conta' onClick={handleSighUp} />
+          <Button title='Criar conta' onClick={handleSignUp} />
         </Form>
 
         <Link to='/'>Já tenho conta</Link>
