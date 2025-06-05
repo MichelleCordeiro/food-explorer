@@ -12,6 +12,8 @@ export const Container = styled.div`
   padding-right: 1.6rem;
 
   > button {
+    font-size: 1.5rem;
+
     background: none;
     cursor: pointer;
 
@@ -19,6 +21,10 @@ export const Container = styled.div`
     align-items: center;
 
     color: ${({ theme, isNew }) => (isNew ? theme.COLORS.LIGHT_500 : theme.COLORS.LIGHT_100)};
+
+    .btn-close {
+      margin-left: -1.4rem;
+    }
   }
 
   input {

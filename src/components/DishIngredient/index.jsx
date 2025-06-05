@@ -6,10 +6,18 @@ import { Container } from './styles'
 export function DishIngredient({ isNew, value, onClick, ...rest }) {
   return (
     <Container isNew={isNew}>
-      <input type='text' value={value} readOnly={!isNew} {...rest} />
+      <input
+        type='text'
+        value={value}
+        readOnly={!isNew}
+        {...rest}
+      />
 
-      <button type='button' onClick={onClick}>
-        {isNew ? <PiPlus /> : <IoMdClose />}
+      <button
+        type='button'
+        onClick={onClick}
+    >
+        {isNew ? <PiPlus /> : <IoMdClose className='btn-close' />}
       </button>
     </Container>
   )

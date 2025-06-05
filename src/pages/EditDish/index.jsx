@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
+
 import { Header } from '../../components/Header'
 import { ButtonText } from '../../components/ButtonText'
 import { Input } from '../../components/Input'
@@ -6,10 +9,21 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
-import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
 import { Container, Form, Image, Category } from './styles'
 
 export function EditDish({ data, isAdmin, ...rest }) {
+  const [ingredients, setIngredients] = useState([]);
+  const [newIngredient, setNewIngredient] = useState('');
+
+  function handleAddIngredient() {
+    setIngredients(prevState => [...prevState, newIngredient]);
+    setNewIngredient('');
+  }
+
+  function handleRemoveIngredient(deleted) {
+    setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted));
+  }
+
   return (
     <Container {...rest}>
       <Header isAdmin />
@@ -72,11 +86,22 @@ export function EditDish({ data, isAdmin, ...rest }) {
               <label htmlFor='ingredients'>Ingredientes</label>
 
               <div className='wrapper-items'>
-                {/* <DishIngredient value='Pão Naan' size={value?.length || 1} /> */}
-                <DishIngredient value='Pão Naan' size={6 || 1} />
-                <DishIngredient value='alface' size={3 || 1} />
-                <DishIngredient value='Tangerina' size={6 || 1} />
-                <DishIngredient placeholder='Adicionar' isNew size={5} />
+                {ingredients.map((ingredient, index) => (
+                  <DishIngredient
+                    key={String(index)}
+                    value={ingredient}
+                    onClick={() => handleRemoveIngredient(ingredient)}
+                    size={ingredient.length / 1.1}
+                  />
+                ))}
+                <DishIngredient
+                  placeholder='Adicionar'
+                  isNew
+                  value={newIngredient}
+                  onChange={e => setNewIngredient(e.target.value)}
+                  onClick={handleAddIngredient}
+                  size={newIngredient.length / 1.1 || 5}
+                />
               </div>
             </div>
 
@@ -100,5 +125,5 @@ export function EditDish({ data, isAdmin, ...rest }) {
       </main>
       <Footer />
     </Container>
-  )
+  );
 }
