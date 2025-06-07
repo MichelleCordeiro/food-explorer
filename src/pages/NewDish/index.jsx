@@ -52,26 +52,59 @@ export function NewDish({ data, ...rest }) {
     setFilename(file.name)
   }
 
+  function validateNewDish({
+    image,
+    name,
+    category,
+    ingredients,
+    newIngredient,
+    price,
+    description
+  }) {
+    const errors = []
+
+    if (!image) errors.push('Selecione a imagem do item.')
+    if (!name) errors.push('Digite o nome do item.')
+    if (!category) errors.push('Selecione a categoria do item.')
+    if (ingredients.length === 0) errors.push('Informe pelo menos um ingrediente.')
+    if (newIngredient) errors.push('Você esqueceu de adicionar um ingrediente digitado.')
+    if (!price) errors.push('Digite o preço do item.')
+    if (!description) errors.push('Digite uma descrição.')
+
+    return errors
+  }
+
   async function handleNewDish(event) {
     event.preventDefault()
 
     if (!isAdmin) {
       return (
-        alert('Apenas administradores podem cadastrar itens.',
+        alert('Apenas administradores podem cadastrar itens.'),
         navigate('/')
-        )
       )
     }
 
-    formData.append("image", image)
-    formData.append("name", name)
-    formData.append("category", category)
-    formData.append("price", price)
-    formData.append("description", description)
+    const errors = validateNewDish({
+      image,
+      name,
+      category,
+      ingredients,
+      newIngredient,
+      price,
+      description
+    })
 
+    if (errors.length) {
+      return alert(errors.join('\n'))
+    }
+
+    const formData = new FormData()
+    formData.append('image', image)
+    formData.append('name', name)
+    formData.append('category', category)
+    formData.append('price', price)
+    formData.append('description', description)
     formData.append('ingredients', JSON.stringify(ingredients))
-
-    console.log('formData: ', formData)
 
     try {
       await api.post('/dishes', formData)
@@ -81,7 +114,7 @@ export function NewDish({ data, ...rest }) {
       if (error.response) {
         alert(error.response.data.message)
       } else {
-        alert("Não foi possível cadastrar o item.")
+        alert('Não foi possível cadastrar o item.')
       }
     }
   }
