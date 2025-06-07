@@ -4,19 +4,21 @@ import { useNavigate } from 'react-router-dom'
 import { LuMenu } from 'react-icons/lu'
 import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
 
-import { useAuth } from '../../hooks/auth'
-
 import { Logo } from '../Logo'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { Menu } from '../Menu'
 
+import { useAuth } from '../../hooks/auth'
+
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
-export function Header({ isAdmin }) {
+export function Header() {
+  const { user, signOut } = useAuth()
+  const isAdmin = user?.is_admin
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const { signOut } = useAuth()
   const navigate = useNavigate()
 
   function handleSignOut() {
@@ -45,7 +47,7 @@ export function Header({ isAdmin }) {
           </div>
         </ButtonIcon>
 
-        <Logo to='/' isAdmin={isAdmin} />
+        <Logo to='/' />
 
         <ButtonIcon className='btn-order-mobile mobile-only'>
           <div className='wrapper-icon'>
@@ -58,7 +60,13 @@ export function Header({ isAdmin }) {
 
         <Search className='desktop-only'>
           <div id='wrapper-input'>
-            <Input icon={PiMagnifyingGlass} placeholder='Busque por pratos ou ingredientes' />
+            <Input
+              id='search-header'
+              name='search-header'
+              type='search'
+              icon={PiMagnifyingGlass}
+              placeholder='Busque por pratos ou ingredientes'
+            />
           </div>
         </Search>
 
@@ -70,14 +78,11 @@ export function Header({ isAdmin }) {
           )}
         </ButtonOrder>
 
-        <Logout
-          className='desktop-only'
-          onClick={handleSignOut}
-        >
+        <Logout className='desktop-only' onClick={handleSignOut}>
           <PiSignOut />
         </Logout>
 
-        <Menu isAdmin={isAdmin} isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+        <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </Content>
     </Container>
   )

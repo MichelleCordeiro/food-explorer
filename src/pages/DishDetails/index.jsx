@@ -6,14 +6,17 @@ import { QuantityItem } from '../../components/QuantityItem'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
+import { useAuth } from '../../hooks/auth'
+
 import { Container, Dish, DishContent } from './styles'
 
-export function DishDetails({ data, isAdmin, ...rest }) {
-  isAdmin = true
+export function DishDetails({ data, ...rest }) {
+  const { user } = useAuth()
+  const isAdmin = user?.is_admin
 
   return (
-    <Container {...rest}>
-      {isAdmin ? <Header isAdmin /> : <Header />}
+    <Container>
+      <Header />
 
       <main>
         <div className='wrapper-button'>

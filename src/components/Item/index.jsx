@@ -2,12 +2,16 @@ import { QuantityItem } from '../QuantityItem'
 import { Button } from '../Button'
 import { PiHeart, PiPencilSimpleLight } from 'react-icons/pi'
 
+import { useAuth } from '../../hooks/auth'
+
 import { Container, Cart } from './styles'
 
-export function Item({ isAdmin, data, ...rest }) {
+export function Item({ data, ...rest }) {
+  const { user } = useAuth()
+  const isAdmin = user?.is_admin
 
   return (
-    <Container {...rest}>
+    <Container>
       {isAdmin ? (
         <>
           <div id='wrapper-heart'>

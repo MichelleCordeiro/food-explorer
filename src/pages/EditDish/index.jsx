@@ -11,7 +11,10 @@ import { Footer } from '../../components/Footer'
 
 import { Container, Form, Image, Category } from './styles'
 
-export function EditDish({ data, isAdmin, ...rest }) {
+export function EditDish({ data, ...rest }) {
+  const { user } = useAuth();
+  const isAdmin = user?.is_admin;
+
   const [ingredients, setIngredients] = useState([]);
   const [newIngredient, setNewIngredient] = useState('');
 
@@ -25,8 +28,8 @@ export function EditDish({ data, isAdmin, ...rest }) {
   }
 
   return (
-    <Container {...rest}>
-      <Header isAdmin />
+    <Container>
+      <Header />
 
       <main>
         <header id='header-new'>

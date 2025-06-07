@@ -3,7 +3,7 @@ import heroMobile from '../../assets/hero_mobile.png'
 
 import { Container, Content } from './styles'
 
-export function Hero({ title, loading, icon, ...rest }) {
+export function Hero() {
   return (
     <Container>
       <Content>
