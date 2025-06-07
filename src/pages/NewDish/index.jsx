@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
 
 import { Header } from '../../components/Header'
@@ -9,14 +11,34 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
+import { api } from '../../services/api'
+import { useAuth } from '../../hooks/auth'
+
 import { Container, Form, Image, Category } from './styles'
 
-export function NewDish({ data, isAdmin, ...rest }) {
+export function NewDish({ data, ...rest }) {
+  const { user } = useAuth()
+  const isAdmin = user?.is_admin
+
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState('')
+  const [price, setPrice] = useState('')
+  const [description, setDescription] = useState('')
+
   const [ingredients, setIngredients] = useState([])
   const [newIngredient, setNewIngredient] = useState('')
 
+  const [image, setImage] = useState(null)
+  const [filename, setFilename] = useState('')
+
+  const navigate = useNavigate()
+
   function handleAddIngredient() {
-    setIngredients(prevState => [...prevState, newIngredient])
+    if (newIngredient.trim() === '') {
+      alert('Digite algum ingrediente antes de adicionar')
+      return
+    }
+    setIngredients(prevState => [...prevState, newIngredient.trim()])
     setNewIngredient('')
   }
 
@@ -24,9 +46,49 @@ export function NewDish({ data, isAdmin, ...rest }) {
     setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
   }
 
+  function handleAddImage(event) {
+    const file = event.target.files[0]
+    setImage(file)
+    setFilename(file.name)
+  }
+
+  async function handleNewDish(event) {
+    event.preventDefault()
+
+    if (!isAdmin) {
+      return (
+        alert('Apenas administradores podem cadastrar itens.',
+        navigate('/')
+        )
+      )
+    }
+
+    formData.append("image", image)
+    formData.append("name", name)
+    formData.append("category", category)
+    formData.append("price", price)
+    formData.append("description", description)
+
+    formData.append('ingredients', JSON.stringify(ingredients))
+
+    console.log('formData: ', formData)
+
+    try {
+      await api.post('/dishes', formData)
+      alert('Item criado com sucesso!')
+      navigate('/')
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message)
+      } else {
+        alert("Não foi possível cadastrar o item.")
+      }
+    }
+  }
+
   return (
-    <Container {...rest}>
-      <Header isAdmin />
+    <Container>
+      <Header />
 
       <main>
         <header id='header-new'>
@@ -34,22 +96,28 @@ export function NewDish({ data, isAdmin, ...rest }) {
           <h1>Novo prato</h1>
         </header>
 
-        <Form>
+        <Form onSubmit={handleNewDish}>
           <div className='infos line-1'>
             <Image className='wrapper wrapper-image'>
               <label htmlFor='image'>
                 Imagem do prato
                 <div>
                   <PiUploadSimple size={24} />
-                  <span>Selecione imagem</span>
-                  <input type='file' id='image' name='image' />
+                  <span>{filename || 'Selecione imagem'}</span>
+                  <input id='image' name='image' type='file' onChange={handleAddImage} />
                 </div>
               </label>
             </Image>
 
             <div className='wrapper wrapper-name'>
               <label htmlFor='name'>Nome</label>
-              <Input type='name' id='name' name='name' placeholder='Ex.: Salada Ceasar' />
+              <Input
+                id='name'
+                name='name'
+                type='text'
+                placeholder='Ex.: Salada Ceasar'
+                onChange={e => setName(e.target.value)}
+              />
             </div>
 
             <Category className='wrapper wrapper-category'>
@@ -57,14 +125,13 @@ export function NewDish({ data, isAdmin, ...rest }) {
                 Categoria
                 <select
                   name='selectCategory'
-                  // value={category}
-                  // options={options}
-                  // onChange={e => setCategory(e.target.value)}
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
                 >
                   <option value=''>Selecione</option>
-                  <option value='meal'>Refeição</option>
-                  <option value='dessert'>Sobremesa</option>
-                  <option value='drink'>Bebida</option>
+                  <option value='Refeição'>Refeição</option>
+                  <option value='Sobremesa'>Sobremesa</option>
+                  <option value='Bebida'>Bebida</option>
                 </select>
                 <PiCaretDown size={24} />
               </label>
@@ -97,21 +164,32 @@ export function NewDish({ data, isAdmin, ...rest }) {
 
             <div className='wrapper wrapper-price'>
               <label htmlFor='price'>Preço</label>
-              <Input type='price' id='price' name='price' placeholder='R$ 00,00' />
+              <Input
+                id='price'
+                name='price'
+                type='number'
+                placeholder='R$ 00,00'
+                onChange={e => setPrice(e.target.value)}
+              />
             </div>
           </div>
 
           <div className='wrapper wrapper-textarea'>
             <label htmlFor='description'>Descrição</label>
-            <Textarea placeholder='Fale brevemente sobre o prato, seus ingredientes e composição' />
+            <Textarea
+              id='description'
+              name='description'
+              placeholder='Fale brevemente sobre o prato, seus ingredientes e composição'
+              onChange={e => setDescription(e.target.value)}
+            />
           </div>
 
           <div className='wrapper-button'>
-            <Button id='btn-save' type='submit' title='Salvar alterações' />
+            <Button id='btn-save' type='submit' title='Cadastrar' />
           </div>
         </Form>
       </main>
       <Footer />
     </Container>
-  );
+  )
 }
