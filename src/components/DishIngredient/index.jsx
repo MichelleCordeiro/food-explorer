@@ -5,8 +5,10 @@ import { Container } from './styles'
 
 export function DishIngredient({ isNew, value, onClick, ...rest }) {
   return (
-    <Container isNew={isNew}>
+    <Container $isNew={isNew}>
       <input
+        id='ingredient'
+        name='ingredient'
         type='text'
         value={value}
         readOnly={!isNew}

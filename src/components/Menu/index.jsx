@@ -6,7 +6,7 @@ import { Container, Close, MenuItems } from './styles'
 
 export function Menu({ isAdmin, isOpen, setIsOpen }) {
   return (
-    <Container isOpen={isOpen}>
+    <Container $isOpen={isOpen}>
       <Close>
         <div className='wrapper'>
           <div className='wrapper-close' onClick={() => setIsOpen(false)}>

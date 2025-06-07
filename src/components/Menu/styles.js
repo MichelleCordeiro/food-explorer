@@ -7,7 +7,7 @@ export const Container = styled.div`
 
   position: fixed;
   top: 0;
-  left: ${({ isOpen }) => (isOpen ? '0' : '-100%')};
+  left: ${({ $isOpen }) => ($isOpen ? '0' : '-100%')};
   z-index: 100;
   transition: left 300ms ease-in-out;
 
