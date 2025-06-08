@@ -14,9 +14,9 @@ import { Footer } from '../../components/Footer'
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 
-import { Container, Form, Image, Category } from './styles'
+import { Container, Form, Image, Category, ErrorMessage } from './styles'
 
-export function NewDish({ data, ...rest }) {
+export function NewDish() {
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
@@ -31,25 +31,62 @@ export function NewDish({ data, ...rest }) {
   const [image, setImage] = useState(null)
   const [filename, setFilename] = useState('')
 
+  const [errors, setErrors] = useState({})
+
   const navigate = useNavigate()
+
+  function capitalizeFirstLetter(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1)
+  }
+
+  function normalizePrice(priceString) {
+    if (!priceString) return 0
+
+    // remove spaces, dots, R$
+    // change comma per dot
+    const cleaned = priceString
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace('R$', '')
+      .replace(',', '.')
+
+    const value = parseFloat(cleaned)
+
+    return isNaN(value) ? 0 : value
+  }
+
+  function handlePriceChange(event) {
+    let value = event.target.value
+    value = value.replace(/\D/g, '')
+    const floatValue = Number(value) / 100
+
+    const formatted = floatValue.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2
+    })
+
+    setPrice(formatted)
+  }
+
+  function handleAddImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    setImage(file);
+    setFilename(file.name);
+  }
 
   function handleAddIngredient() {
     if (newIngredient.trim() === '') {
       alert('Digite algum ingrediente antes de adicionar')
       return
     }
-    setIngredients(prevState => [...prevState, newIngredient.trim()])
+    setIngredients(prevState => [...prevState, newIngredient.trim().toLowerCase()])
     setNewIngredient('')
   }
 
   function handleRemoveIngredient(deleted) {
     setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
-  }
-
-  function handleAddImage(event) {
-    const file = event.target.files[0]
-    setImage(file)
-    setFilename(file.name)
   }
 
   function validateNewDish({
@@ -61,17 +98,18 @@ export function NewDish({ data, ...rest }) {
     price,
     description
   }) {
-    const errors = []
+    const newErrors = {}
 
-    if (!image) errors.push('Selecione a imagem do item.')
-    if (!name) errors.push('Digite o nome do item.')
-    if (!category) errors.push('Selecione a categoria do item.')
-    if (ingredients.length === 0) errors.push('Informe pelo menos um ingrediente.')
-    if (newIngredient) errors.push('Você esqueceu de adicionar um ingrediente digitado.')
-    if (!price) errors.push('Digite o preço do item.')
-    if (!description) errors.push('Digite uma descrição.')
+    if (!image) newErrors.image = 'Selecione a imagem do item.'
+    if (!name) newErrors.name = 'Digite o nome do item.'
+    if (!category) newErrors.category = 'Selecione a categoria do item.'
+    if (ingredients.length === 0) newErrors.ingredients = 'Informe pelo menos um ingrediente.'
+    if (newIngredient)
+      newErrors.newIngredient = 'Você esqueceu de adicionar um ingrediente digitado.'
+    if (!price || price === 'R$ 0,00') newErrors.price = 'Digite o preço do item.'
+    if (!description) newErrors.description = 'Digite uma descrição.'
 
-    return errors
+    return newErrors
   }
 
   async function handleNewDish(event) {
@@ -84,26 +122,33 @@ export function NewDish({ data, ...rest }) {
       )
     }
 
-    const errors = validateNewDish({
+    const formattedName = capitalizeFirstLetter(name.trim())
+    const formattedDescription = capitalizeFirstLetter(description.trim())
+    const formattedPrice = normalizePrice(price)
+
+    const validationErrors = validateNewDish({
       image,
-      name,
+      name: formattedName,
       category,
       ingredients,
       newIngredient,
-      price,
-      description
+      price: formattedPrice,
+      description: formattedDescription
     })
 
-    if (errors.length) {
-      return alert(errors.join('\n'))
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
     }
+
+    setErrors({})
 
     const formData = new FormData()
     formData.append('image', image)
-    formData.append('name', name)
+    formData.append('name', formattedName)
     formData.append('category', category)
-    formData.append('price', price)
-    formData.append('description', description)
+    formData.append('price', formattedPrice)
+    formData.append('description', formattedDescription)
     formData.append('ingredients', JSON.stringify(ingredients))
 
     try {
@@ -137,8 +182,14 @@ export function NewDish({ data, ...rest }) {
                 <div>
                   <PiUploadSimple size={24} />
                   <span>{filename || 'Selecione imagem'}</span>
-                  <input id='image' name='image' type='file' onChange={handleAddImage} />
+                  <input
+                    id='image'
+                    name='image'
+                    type='file'
+                    onChange={handleAddImage}
+                  />
                 </div>
+                <ErrorMessage>{errors.image}</ErrorMessage>
               </label>
             </Image>
 
@@ -151,6 +202,7 @@ export function NewDish({ data, ...rest }) {
                 placeholder='Ex.: Salada Ceasar'
                 onChange={e => setName(e.target.value)}
               />
+              <ErrorMessage>{errors.name}</ErrorMessage>
             </div>
 
             <Category className='wrapper wrapper-category'>
@@ -168,6 +220,7 @@ export function NewDish({ data, ...rest }) {
                 </select>
                 <PiCaretDown size={24} />
               </label>
+              <ErrorMessage>{errors.category}</ErrorMessage>
             </Category>
           </div>
 
@@ -193,6 +246,8 @@ export function NewDish({ data, ...rest }) {
                   size={newIngredient.length / 1.1 || 5}
                 />
               </div>
+              <ErrorMessage>{errors.ingredients}</ErrorMessage>
+              <ErrorMessage>{errors.newIngredient}</ErrorMessage>
             </div>
 
             <div className='wrapper wrapper-price'>
@@ -200,10 +255,12 @@ export function NewDish({ data, ...rest }) {
               <Input
                 id='price'
                 name='price'
-                type='number'
+                type='text'
                 placeholder='R$ 00,00'
-                onChange={e => setPrice(e.target.value)}
+                value={price}
+                onChange={handlePriceChange}
               />
+              <ErrorMessage>{errors.price}</ErrorMessage>
             </div>
           </div>
 
@@ -215,6 +272,7 @@ export function NewDish({ data, ...rest }) {
               placeholder='Fale brevemente sobre o prato, seus ingredientes e composição'
               onChange={e => setDescription(e.target.value)}
             />
+            <ErrorMessage>{errors.description}</ErrorMessage>
           </div>
 
           <div className='wrapper-button'>

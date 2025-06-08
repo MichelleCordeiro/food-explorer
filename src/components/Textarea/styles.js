@@ -13,14 +13,10 @@ export const Container = styled.textarea`
   border-radius: 1rem;
 
   padding: 1.4rem;
-  margin-block: 1.6rem 2.4rem;
+  margin-top: 1.6rem;
 
   &::placeholder {
     color: ${({ theme }) => theme.COLORS.LIGHT_500};
     font-size: 1.6rem;
   }
-
-  @media (min-width: 769px) {
-    margin-bottom: 3.2rem;
-  }
-`
+`;

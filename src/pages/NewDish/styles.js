@@ -1,4 +1,9 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 export const Container = styled.div`
   width: 100%;
@@ -100,6 +105,8 @@ export const Form = styled.form`
     font-size: 1.4rem;
     font-weight: 500;
     background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
+
+    margin-top: 2.4rem;
   }
 
   @media (min-width: 769px) {
@@ -141,6 +148,7 @@ export const Form = styled.form`
 
       > #btn-save {
         width: fit-content;
+        margin-top: 3.2rem;
       }
     }
   }
@@ -221,4 +229,12 @@ export const Category = styled.div`
       }
     }
   }
+`;
+
+export const ErrorMessage = styled.span`
+  color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
+
+  font-size: 1.2rem;
+  margin-top: 0.8rem;
+  animation: ${fadeIn} 0.3s ease-out;
 `;
