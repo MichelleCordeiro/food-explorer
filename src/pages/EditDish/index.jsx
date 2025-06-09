@@ -11,6 +11,9 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
+import { capitalizeFirstLetter, normalizePriceInput, formatPriceToBRL } from '../../utils/utils'
+import { validateEditDish } from '../../utils/validateDish'
+
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 
@@ -28,43 +31,21 @@ export function EditDish() {
   const [ingredients, setIngredients] = useState([])
   const [newIngredient, setNewIngredient] = useState('')
 
-  const [image, setImage] = useState(null)
+  const [newImage, setNewImage] = useState(null)
   const [filename, setFilename] = useState('')
-  const [updatedImage, setUpdatedImage] = useState(null)
+  const [originalFilename, setOriginalFilename] = useState('')
 
   const [errors, setErrors] = useState({})
 
   const navigate = useNavigate()
   const params = useParams()
 
-  function capitalizeFirstLetter(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1)
-  }
-
-  function normalizePrice(priceString) {
-    if (!priceString) return 0
-
-    const cleaned = priceString
-      .replace(/\s/g, '')
-      .replace(/\./g, '')
-      .replace('R$', '')
-      .replace(',', '.')
-
-    const value = parseFloat(cleaned)
-
-    return isNaN(value) ? 0 : value
-  }
-
-  function handlePriceChange(event) {
+  function handleChangePrice(event) {
     let value = event.target.value
     value = value.replace(/\D/g, '')
     const floatValue = Number(value) / 100
 
-    const formatted = floatValue.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 2
-    })
+    const formatted = formatPriceToBRL(floatValue)
 
     setPrice(formatted)
   }
@@ -72,8 +53,8 @@ export function EditDish() {
   function handleChangeImage(event) {
     const file = event.target.files[0]
     if (!file) return
-    setImage(file)
-    setUpdatedImage(file)
+
+    setNewImage(file)
     setFilename(file.name)
   }
 
@@ -90,38 +71,28 @@ export function EditDish() {
     setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
   }
 
-  function validateEditDish({ name, category, ingredients, newIngredient, price, description }) {
-    const newErrors = {}
-
-    if (!name) newErrors.name = 'Digite o nome do item.'
-    if (!category) newErrors.category = 'Selecione a categoria do item.'
-    if (ingredients.length === 0) newErrors.ingredients = 'Informe pelo menos um ingrediente.'
-    if (newIngredient)
-      newErrors.newIngredient = 'Você esqueceu de adicionar um ingrediente digitado.'
-    if (!price || price === 'R$ 0,00') newErrors.price = 'Digite o preço do item.'
-    if (!description) newErrors.description = 'Digite uma descrição.'
-
-    return newErrors
-  }
-
   async function handleEditDish(event) {
     event.preventDefault()
 
     if (!isAdmin) {
-      return alert('Apenas administradores podem cadastrar itens.', navigate('/'))
+      return (
+        alert('Apenas administradores podem cadastrar itens.'),
+        navigate('/')
+      )
     }
 
     const formattedName = capitalizeFirstLetter(name.trim())
     const formattedDescription = capitalizeFirstLetter(description.trim())
-    const formattedPrice = normalizePrice(price)
 
     const validationErrors = validateEditDish({
       name: formattedName,
       category,
       ingredients,
       newIngredient,
-      price: formattedPrice,
-      description: formattedDescription
+      price,
+      description: formattedDescription,
+      newImage,
+      originalFilename
     })
 
     if (Object.keys(validationErrors).length > 0) {
@@ -130,7 +101,8 @@ export function EditDish() {
     }
 
     setErrors({})
-    console.log('Ingredientes enviados: ', ingredients)
+
+    const formattedPrice = normalizePriceInput(price)
 
     const formData = new FormData()
     formData.append('name', formattedName)
@@ -142,9 +114,9 @@ export function EditDish() {
     try {
       await api.patch(`/dishes/${params.id}`, formData)
 
-      if (image) {
+      if (newImage && newImage.name !== originalFilename) {
         const imgData = new FormData()
-        imgData.append('image', image)
+        imgData.append('image', newImage)
 
         await api.patch(`/dishes/${params.id}`, imgData, {
           headers: { 'Content-Type': 'multipart/form-data' }
@@ -164,6 +136,13 @@ export function EditDish() {
   }
 
   async function handleDeleteDish() {
+    if (!isAdmin) {
+      return (
+        alert('Apenas administradores podem excluir itens.'),
+        navigate('/')
+      )
+    }
+
     const confirm = window.confirm('Deseja realmente excluir o item?')
 
     if (!confirm) return
@@ -183,14 +162,12 @@ export function EditDish() {
     async function fetchDish() {
       try {
         const { data } = await api.get(`/dishes/${params.id}`)
-        console.log('data:  ', data)
-        console.log('data.ingredients:  ', data.ingredients)
         setName(data.name)
         setCategory(data.category)
-        setPrice(data.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }))
+        setPrice(formatPriceToBRL(data.price))
         setDescription(data.description)
         setIngredients(data.ingredients.map(ing => ing.name))
-        setFilename(data.image)
+        setOriginalFilename(data.image)
       } catch (error) {
         alert('Erro ao carregar os dados do prato.')
         navigate('/')
@@ -300,7 +277,7 @@ export function EditDish() {
                 type='text'
                 placeholder='R$ 00,00'
                 value={price}
-                onChange={handlePriceChange}
+                onChange={handleChangePrice}
               />
               <ErrorMessage>{errors.price}</ErrorMessage>
             </div>
@@ -311,7 +288,7 @@ export function EditDish() {
             <Textarea
               id='description'
               name='description'
-              defaultValue={description}
+              value={description}
               placeholder='Fale brevemente sobre o prato, seus ingredientes e composição'
               onChange={e => setDescription(e.target.value)}
             />

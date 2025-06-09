@@ -11,6 +11,9 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
+import { capitalizeFirstLetter, normalizePriceInput, formatPriceToBRL } from '../../utils/utils'
+import { validateNewDish } from '../../utils/validateDish'
+
 import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 
@@ -35,45 +38,20 @@ export function NewDish() {
 
   const navigate = useNavigate()
 
-  function capitalizeFirstLetter(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1)
-  }
-
-  function normalizePrice(priceString) {
-    if (!priceString) return 0
-
-    // remove spaces, dots, R$
-    // change comma per dot
-    const cleaned = priceString
-      .replace(/\s/g, '')
-      .replace(/\./g, '')
-      .replace('R$', '')
-      .replace(',', '.')
-
-    const value = parseFloat(cleaned)
-
-    return isNaN(value) ? 0 : value
-  }
-
-  function handlePriceChange(event) {
+  function handleChangePrice(event) {
     let value = event.target.value
     value = value.replace(/\D/g, '')
     const floatValue = Number(value) / 100
-
-    const formatted = floatValue.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-      minimumFractionDigits: 2
-    })
+    const formatted = formatPriceToBRL(floatValue)
 
     setPrice(formatted)
   }
 
   function handleAddImage(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    setImage(file);
-    setFilename(file.name);
+    const file = event.target.files[0]
+    if (!file) return
+    setImage(file)
+    setFilename(file.name)
   }
 
   function handleAddIngredient() {
@@ -89,51 +67,24 @@ export function NewDish() {
     setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
   }
 
-  function validateNewDish({
-    image,
-    name,
-    category,
-    ingredients,
-    newIngredient,
-    price,
-    description
-  }) {
-    const newErrors = {}
-
-    if (!image) newErrors.image = 'Selecione a imagem do item.'
-    if (!name) newErrors.name = 'Digite o nome do item.'
-    if (!category) newErrors.category = 'Selecione a categoria do item.'
-    if (ingredients.length === 0) newErrors.ingredients = 'Informe pelo menos um ingrediente.'
-    if (newIngredient)
-      newErrors.newIngredient = 'Você esqueceu de adicionar um ingrediente digitado.'
-    if (!price || price === 'R$ 0,00') newErrors.price = 'Digite o preço do item.'
-    if (!description) newErrors.description = 'Digite uma descrição.'
-
-    return newErrors
-  }
-
   async function handleNewDish(event) {
     event.preventDefault()
 
     if (!isAdmin) {
-      return (
-        alert('Apenas administradores podem cadastrar itens.'),
-        navigate('/')
-      )
+      return alert('Apenas administradores podem cadastrar itens.'), navigate('/')
     }
 
     const formattedName = capitalizeFirstLetter(name.trim())
     const formattedDescription = capitalizeFirstLetter(description.trim())
-    const formattedPrice = normalizePrice(price)
 
     const validationErrors = validateNewDish({
-      image,
       name: formattedName,
       category,
       ingredients,
       newIngredient,
-      price: formattedPrice,
-      description: formattedDescription
+      price,
+      description: formattedDescription,
+      image
     })
 
     if (Object.keys(validationErrors).length > 0) {
@@ -142,6 +93,8 @@ export function NewDish() {
     }
 
     setErrors({})
+
+    const formattedPrice = normalizePriceInput(price)
 
     const formData = new FormData()
     formData.append('image', image)
@@ -153,7 +106,7 @@ export function NewDish() {
 
     try {
       await api.post('/dishes', formData)
-      alert('Item criado com sucesso!')
+      alert('Item cadastrado com sucesso!')
       navigate('/')
     } catch (error) {
       if (error.response) {
@@ -258,7 +211,7 @@ export function NewDish() {
                 type='text'
                 placeholder='R$ 00,00'
                 value={price}
-                onChange={handlePriceChange}
+                onChange={handleChangePrice}
               />
               <ErrorMessage>{errors.price}</ErrorMessage>
             </div>
