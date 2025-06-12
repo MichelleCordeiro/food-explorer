@@ -1,25 +1,21 @@
-import { normalizePriceInput } from './utils'
-
-export function validateBaseDishFields({ name, category, ingredients, newIngredient, price, description }) {
+export function validateBaseDish({ name, category, ingredients, newIngredient, price, description }) {
   const errors = {}
 
-  if (!name) errors.name = 'Digite o nome do item.'
+  if (!name.trim()) errors.name = 'Digite o nome do item.'
   if (!category) errors.category = 'Selecione a categoria do item.'
-  if (!ingredients || ingredients.length === 0)
-    errors.ingredients = 'Informe pelo menos um ingrediente.'
-  if (newIngredient?.trim())
-    errors.newIngredient = 'Você esqueceu de adicionar um ingrediente digitado.'
-  if (!price || price === 'R$ 0,00')
+  if (!price || isNaN(price) || price=== 0)
     errors.price = 'Digite o preço do item.'
-  if (!description) errors.description = 'Digite uma descrição.'
+  if (!description.trim()) errors.description = 'Digite uma descrição.'
+  if (ingredients.length === 0)
+      errors.ingredients = 'Informe pelo menos um ingrediente.'
+  if (newIngredient?.trim())
+    errors.newIngredient = ' Você esqueceu de adicionar um ingrediente digitado.'
 
   return errors
 }
 
 export function validateNewDish(data) {
-  console.log('data: ', data)
-
-  const errors = validateBaseDishFields(data)
+  const errors = validateBaseDish(data)
 
   if (!data.image) {
     errors.image = 'Selecione a imagem do item.'
@@ -29,11 +25,12 @@ export function validateNewDish(data) {
 }
 
 export function validateEditDish(data) {
-  const errors = validateBaseDishFields(data)
+  const errors = validateBaseDish(data)
 
   const { newImage, originalFilename } = data
+  const isUpdatingImage = newImage && newImage.name !== originalFilename
 
-  if (!newImage && !originalFilename) {
+  if (!isUpdatingImage && !originalFilename) {
     errors.image = 'Selecione a imagem do item.'
   }
 

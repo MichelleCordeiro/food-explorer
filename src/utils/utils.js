@@ -12,12 +12,12 @@ export function formatPriceToBRL(value) {
 }
 
 export function normalizePriceInput(priceString) {
-  if (!priceString) return 0
+  if (!priceString || typeof priceString !== 'string') return 0
 
   const cleaned = String(priceString)
     .replace(/\s/g, '')
-    .replace('R$', '')
     .replace(/\./g, '')
+    .replace('R$', '')
     .replace(',', '.')
 
   const parsed = parseFloat(cleaned)
