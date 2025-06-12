@@ -56,6 +56,11 @@ export default createGlobalStyle`
     filter: brightness(0.9)
   }
 
+  button:disabled {
+    background-color: ${({ theme }) => theme.COLORS.LIGHT_700};
+    cursor: not-allowed;
+  }
+
   .desktop-only {
     display: none;
   }

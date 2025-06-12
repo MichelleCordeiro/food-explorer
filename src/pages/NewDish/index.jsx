@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
@@ -11,11 +10,9 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
-import { capitalizeFirstLetter, normalizePriceInput, formatPriceToBRL } from '../../utils/utils'
-import { validateNewDish } from '../../utils/validateDish'
-
-import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
+import { useDishForm } from '../../hooks/useDishForm'
+import { api } from '../../services/api'
 
 import { Container, Form, Image, Category, ErrorMessage } from './styles'
 
@@ -23,69 +20,38 @@ export function NewDish() {
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState('')
-  const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
-
-  const [ingredients, setIngredients] = useState([])
-  const [newIngredient, setNewIngredient] = useState('')
-
-  const [image, setImage] = useState(null)
-  const [filename, setFilename] = useState('')
-
-  const [errors, setErrors] = useState({})
-
   const navigate = useNavigate()
+  const dishForm = useDishForm()
 
-  function handleChangePrice(event) {
-    let value = event.target.value
-    value = value.replace(/\D/g, '')
-    const floatValue = Number(value) / 100
-    const formatted = formatPriceToBRL(floatValue)
-
-    setPrice(formatted)
-  }
-
-  function handleAddImage(event) {
-    const file = event.target.files[0]
-    if (!file) return
-    setImage(file)
-    setFilename(file.name)
-  }
-
-  function handleAddIngredient() {
-    if (newIngredient.trim() === '') {
-      alert('Digite algum ingrediente antes de adicionar')
-      return
-    }
-    setIngredients(prevState => [...prevState, newIngredient.trim().toLowerCase()])
-    setNewIngredient('')
-  }
-
-  function handleRemoveIngredient(deleted) {
-    setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
-  }
+  const {
+    setName,
+    category,
+    setCategory,
+    price,
+    setDescription,
+    ingredients,
+    newIngredient,
+    setNewIngredient,
+    filename,
+    errors,
+    setErrors,
+    handleChangePrice,
+    handleAddImage,
+    handleAddIngredient,
+    handleRemoveIngredient,
+    validate,
+    formatDataForSubmit
+  } = dishForm
 
   async function handleNewDish(event) {
     event.preventDefault()
 
     if (!isAdmin) {
-      return alert('Apenas administradores podem cadastrar itens.'), navigate('/')
+      alert('Apenas administradores podem cadastrar itens.')
+      return navigate('/')
     }
 
-    const formattedName = capitalizeFirstLetter(name.trim())
-    const formattedDescription = capitalizeFirstLetter(description.trim())
-
-    const validationErrors = validateNewDish({
-      name: formattedName,
-      category,
-      ingredients,
-      newIngredient,
-      price,
-      description: formattedDescription,
-      image
-    })
+    const validationErrors = validate()
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
@@ -94,15 +60,23 @@ export function NewDish() {
 
     setErrors({})
 
-    const formattedPrice = normalizePriceInput(price)
+    const {
+      name: formattedName,
+      category: formattedCategory,
+      price: formattedPrice,
+      description: formattedDescription,
+      ingredients: formattedIngredients,
+      image
+    } = formatDataForSubmit()
+
 
     const formData = new FormData()
     formData.append('image', image)
     formData.append('name', formattedName)
-    formData.append('category', category)
+    formData.append('category', formattedCategory)
     formData.append('price', formattedPrice)
     formData.append('description', formattedDescription)
-    formData.append('ingredients', JSON.stringify(ingredients))
+    formData.append('ingredients', JSON.stringify(formattedIngredients))
 
     try {
       await api.post('/dishes', formData)
@@ -110,9 +84,7 @@ export function NewDish() {
       navigate('/')
     } catch (error) {
       if (error.response) {
-        alert(error.response.data.message)
-      } else {
-        alert('Não foi possível cadastrar o item.')
+        alert(error.response?.data?.message || 'Não foi possível cadastrar o item.')
       }
     }
   }

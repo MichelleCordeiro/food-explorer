@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { PiUploadSimple, PiCaretDown } from 'react-icons/pi'
@@ -11,11 +11,10 @@ import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
-import { capitalizeFirstLetter, normalizePriceInput, formatPriceToBRL } from '../../utils/utils'
-import { validateEditDish } from '../../utils/validateDish'
-
-import { api } from '../../services/api'
 import { useAuth } from '../../hooks/auth'
+import { useDishForm } from '../../hooks/useDishForm'
+import { formatPriceToBRL } from '../../utils/utils'
+import { api } from '../../services/api'
 
 import { Container, Form, Image, Category, ErrorMessage } from './styles'
 
@@ -23,92 +22,59 @@ export function EditDish() {
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState('')
-  const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
-
-  const [ingredients, setIngredients] = useState([])
-  const [newIngredient, setNewIngredient] = useState('')
-
-  const [newImage, setNewImage] = useState(null)
-  const [filename, setFilename] = useState('')
-  const [originalFilename, setOriginalFilename] = useState('')
-
-  const [errors, setErrors] = useState({})
-
   const navigate = useNavigate()
   const params = useParams()
 
-  function handleChangePrice(event) {
-    let value = event.target.value
-    value = value.replace(/\D/g, '')
-    const floatValue = Number(value) / 100
-
-    const formatted = formatPriceToBRL(floatValue)
-
-    setPrice(formatted)
-  }
-
-  function handleChangeImage(event) {
-    const file = event.target.files[0]
-    if (!file) return
-
-    setNewImage(file)
-    setFilename(file.name)
-  }
-
-  function handleAddIngredient() {
-    if (newIngredient.trim() === '') {
-      alert('Digite algum ingrediente antes de adicionar')
-      return
-    }
-    setIngredients(prevState => [...prevState, newIngredient.trim().toLowerCase()])
-    setNewIngredient('')
-  }
-
-  function handleRemoveIngredient(deleted) {
-    setIngredients(prevState => prevState.filter(ingredient => ingredient !== deleted))
-  }
+  const {
+    name,
+    setName,
+    category,
+    setCategory,
+    price,
+    setPrice,
+    description,
+    setDescription,
+    ingredients,
+    setIngredients,
+    newIngredient,
+    setNewIngredient,
+    newImage,
+    setNewImage,
+    filename,
+    setFilename,
+    originalFilename,
+    setOriginalFilename,
+    errors,
+    handleChangePrice,
+    handleAddImage,
+    handleAddIngredient,
+    handleRemoveIngredient,
+    validate,
+    formatDataForSubmit,
+    hasChanged,
+    setInitialData
+  } = useDishForm({ isEdit: true })
 
   async function handleEditDish(event) {
     event.preventDefault()
 
     if (!isAdmin) {
       return (
-        alert('Apenas administradores podem cadastrar itens.'),
+        alert('Apenas administradores podem editar itens.'),
         navigate('/')
       )
     }
 
-    const formattedName = capitalizeFirstLetter(name.trim())
-    const formattedDescription = capitalizeFirstLetter(description.trim())
+    const validationErrors = validate()
+    if (Object.keys(validationErrors).length > 0) return
 
-    const validationErrors = validateEditDish({
-      name: formattedName,
-      category,
-      ingredients,
-      newIngredient,
-      price,
-      description: formattedDescription,
-      newImage,
-      originalFilename
-    })
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
-      return
-    }
-
-    setErrors({})
-
-    const formattedPrice = normalizePriceInput(price)
+    const { name, category, price, description, ingredients } = formatDataForSubmit()
 
     const formData = new FormData()
-    formData.append('name', formattedName)
+    formData.append('name', name)
     formData.append('category', category)
-    formData.append('price', formattedPrice)
-    formData.append('description', formattedDescription)
+    formData.append('price', price)
+    formData.append('description', description)
     formData.append('ingredients', JSON.stringify(ingredients))
 
     try {
@@ -116,7 +82,7 @@ export function EditDish() {
 
       if (newImage && newImage.name !== originalFilename) {
         const imgData = new FormData()
-        imgData.append('image', newImage)
+        imgData.append('newImage', newImage)
 
         await api.patch(`/dishes/${params.id}`, imgData, {
           headers: { 'Content-Type': 'multipart/form-data' }
@@ -127,11 +93,7 @@ export function EditDish() {
       navigate('/')
 
     } catch (error) {
-      if (error.response) {
-        alert(error.response.data.message)
-      } else {
-        alert('Não foi possível atualizar o item.')
-      }
+      alert(error.response?.data?.message || 'Não foi possível atualizar o item.')
     }
   }
 
@@ -144,7 +106,6 @@ export function EditDish() {
     }
 
     const confirm = window.confirm('Deseja realmente excluir o item?')
-
     if (!confirm) return
 
     try {
@@ -162,19 +123,31 @@ export function EditDish() {
     async function fetchDish() {
       try {
         const { data } = await api.get(`/dishes/${params.id}`)
+
         setName(data.name)
         setCategory(data.category)
         setPrice(formatPriceToBRL(data.price))
         setDescription(data.description)
+
         setIngredients(data.ingredients.map(ing => ing.name))
         setOriginalFilename(data.image)
+
+        setInitialData({
+          name: data.name,
+          category: data.category,
+          price: data.price,
+          description: data.description,
+          ingredients: data.ingredients.map(ing => ing.name)
+        })
+
       } catch (error) {
+        console.error('Erro ao carregar prato:', error.response?.data || error.message)
         alert('Erro ao carregar os dados do prato.')
         navigate('/')
       }
     }
     fetchDish()
-  }, [params.id, navigate])
+  }, [params.id])
 
   return (
     <Container>
@@ -194,7 +167,7 @@ export function EditDish() {
                 <div>
                   <PiUploadSimple size={24} />
                   <span>{filename || 'Selecione imagem para alterá-la'}</span>
-                  <input id='image' name='image' type='file' onChange={handleChangeImage} />
+                  <input id='image' name='image' type='file' onChange={handleAddImage} />
                 </div>
                 <ErrorMessage>{errors.image}</ErrorMessage>
               </label>
@@ -205,7 +178,7 @@ export function EditDish() {
                 <div>
                   <PiUploadSimple size={24} />
                   <span>{filename || 'Selecione imagem'}</span>
-                  <input id='image' name='image' type='file' onChange={handleChangeImage} />
+                  <input id='image' name='image' type='file' onChange={handleAddImage} />
                 </div>
                 <ErrorMessage>{errors.image}</ErrorMessage>
               </label>
@@ -303,7 +276,12 @@ export function EditDish() {
               onClick={handleDeleteDish}
             />
 
-            <Button className='btn-edit btn-save' type='submit' title='Salvar alterações' />
+            <Button
+              className='btn-edit btn-save'
+              type='submit'
+              title='Salvar alterações'
+              disabled={!hasChanged}
+            />
           </div>
         </Form>
       </main>

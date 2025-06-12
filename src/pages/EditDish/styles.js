@@ -107,6 +107,7 @@ export const Form = styled.form`
 
     display: flex;
     gap: clamp(1rem, 1rem + 5vw, 3.2rem);
+    margin-top: 2.4rem;
 
     .btn-edit {
       height: 4.8rem;
@@ -122,6 +123,11 @@ export const Form = styled.form`
 
     > .btn-save {
       background-color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
+
+      &:disabled {
+        background-color: ${({ theme }) => theme.COLORS.LIGHT_700};
+        cursor: not-allowed;
+      }
     }
   }
 

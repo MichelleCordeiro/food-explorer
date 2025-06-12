@@ -21,7 +21,7 @@ export const Container = styled.button`
   }
 
   &:disabled {
-    background-color: ${({ theme }) => theme.COLORS.pink};
+    background-color: ${({ theme }) => theme.COLORS.LIGHT_700};
   }
 
   @media (min-width: 769px) {
