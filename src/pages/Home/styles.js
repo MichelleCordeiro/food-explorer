@@ -15,4 +15,4 @@ export const Container = styled.div`
   @media (min-width: 769px) {
     padding-bottom: calc(7.7rem + 4.8rem);
   }
-`;
+`
