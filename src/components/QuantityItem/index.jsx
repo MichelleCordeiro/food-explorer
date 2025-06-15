@@ -21,7 +21,10 @@ export function QuantityItem({ quantity, setQuantity }) {
         <PiMinus />
       </button>
 
-      <span>{quantity}</span>
+      {quantity < 10
+        ? <spam className='quant'>0{quantity}</spam>
+        : <spam className='quant'>{quantity}</spam>
+      }
 
       <button type='button' onClick={handleIncrementQuantity}>
         <PiPlus />

@@ -10,6 +10,9 @@ export const Container = styled.div`
     font-size: 2.263rem;
     font-family: 'Roboto', sans-serif;
   }
+  > .quant {
+    width: 1.5rem;
+  }
 
   > button {
     background: none;

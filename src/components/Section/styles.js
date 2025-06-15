@@ -18,4 +18,4 @@ export const Container = styled.section`
       padding-bottom: 2.3rem;
     }
   }
-`;
+`

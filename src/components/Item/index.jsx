@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { QuantityItem } from '../QuantityItem'
 import { Button } from '../Button'
 import { PiHeart, PiPencilSimpleLight } from 'react-icons/pi'
@@ -6,28 +9,34 @@ import { useAuth } from '../../hooks/auth'
 
 import { Container, Cart } from './styles'
 
-export function Item({ data, ...rest }) {
-  const { user } = useAuth()
-  const isAdmin = user?.is_admin
+export function Item({ data, isAdmin }) {
+  const [quantity, setQuantity] = useState(1)
+
+  const navigate = useNavigate()
+
+  function handleToEdit() {
+    navigate(`/edit/${data.id}`)
+  }
+
+  function handleToDetails(id) {
+    navigate(`/details/${id}`)
+  }
 
   return (
-    <Container>
+    <Container isAdmin={isAdmin}>
       {isAdmin ? (
         <>
           <div id='wrapper-heart'>
-            <PiPencilSimpleLight size={'2.4rem'} />
+            <PiPencilSimpleLight size={'2.4rem'} onClick={handleToEdit} />
           </div>
 
-          <img src={data.src} alt='Foto do item' />
+          <div id='wrapper-infos' onClick={() => handleToDetails(data.id)}>
+            <img src={data.src} alt='Foto do item' />
 
-          <h3>{data.title}</h3>
-          <span className='description desktop-only'>{data.description}</span>
-          <span className='price mobile-only' style={{ marginBottom: '4.6rem' }}>
-            {data.price}
-          </span>
-          <span className='price desktop-only' style={{ marginBottom: '3.1rem' }}>
-            {data.price}
-          </span>
+            <h3>{data.title}</h3>
+            <span className='description desktop-only'>{data.description}</span>
+            <span className='price'>{data.price}</span>
+          </div>
         </>
       ) : (
         <>
@@ -35,14 +44,16 @@ export function Item({ data, ...rest }) {
             <PiHeart size={'2.4rem'} />
           </div>
 
-          <img src={data.src} alt='Foto do item' />
+          <div id='wrapper-infos' onClick={() => handleToDetails(data.id)}>
+            <img src={data.src} alt='Foto do item' />
 
-          <h3>{data.title}</h3>
-          <span className='description desktop-only'>{data.description}</span>
-          <span className='price'>{data.price}</span>
+            <h3>{data.title}</h3>
+            <span className='description desktop-only'>{data.description}</span>
+            <span className='price'>{data.price}</span>
+          </div>
 
-          <Cart className='cart'>
-            <QuantityItem sizeIcon={18} />
+          <Cart>
+            <QuantityItem quantity={quantity} setQuantity={setQuantity} />
             <Button className='btn-cart' title='incluir' />
           </Cart>
         </>
