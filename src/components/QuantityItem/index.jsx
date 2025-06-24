@@ -22,8 +22,8 @@ export function QuantityItem({ quantity, setQuantity }) {
       </button>
 
       {quantity < 10
-        ? <spam className='quant'>0{quantity}</spam>
-        : <spam className='quant'>{quantity}</spam>
+        ? <span className='quant'>0{quantity}</span>
+        : <span className='quant'>{quantity}</span>
       }
 
       <button type='button' onClick={handleIncrementQuantity}>

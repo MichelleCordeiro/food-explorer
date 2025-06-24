@@ -10,6 +10,7 @@ export const Container = styled.div`
     font-size: 2.263rem;
     font-family: 'Roboto', sans-serif;
   }
+
   > .quant {
     width: 1.5rem;
   }
@@ -23,6 +24,7 @@ export const Container = styled.div`
     > svg {
       display: flex;
       align-items: center;
+      font-size: 2rem;
 
       &:hover {
         transform: scale(1.1);
@@ -31,6 +33,12 @@ export const Container = styled.div`
       &:disabled {
         background-color: ${({ theme }) => theme.COLORS.DARK_800};
       }
+    }
+  }
+
+  @media (min-width: 769px) {
+    > button svg {
+      font-size: 1.8rem;
     }
   }
 `;

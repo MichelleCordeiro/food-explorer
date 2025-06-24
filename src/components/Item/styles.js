@@ -26,9 +26,9 @@ export const Container = styled.div`
 
   > #wrapper-infos {
     // 7rem - 1.6rem - 2.4rem = 3rem
-    margin-top: ${({ isAdmin }) => (isAdmin ? '3rem' : '0')};
+    margin-top: ${({ $isAdmin }) => ($isAdmin ? '3rem' : '0')};
     // 7rem - 2.4rem = 4.6rem
-    margin-bottom: ${({ isAdmin }) => (isAdmin ? '4.6rem' : '0')};
+    margin-bottom: ${({ $isAdmin }) => ($isAdmin ? '4.6rem' : '0')};
 
     > img {
       width: clamp(8.8rem, 0.5rem + 19vw, 17.6rem);

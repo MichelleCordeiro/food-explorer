@@ -23,7 +23,7 @@ export function Item({ data, isAdmin }) {
   }
 
   return (
-    <Container isAdmin={isAdmin}>
+    <Container $isAdmin={isAdmin}>
       {isAdmin ? (
         <>
           <div id='wrapper-heart'>

@@ -108,8 +108,6 @@ export function useDishForm({ isEdit = false } = {}) {
     )
   }, [name, category, price, description, ingredients, newImage, initialData, isEdit])
 
-  console.log('hasChanged: ', hasChanged)
-
   return {
     name,
     setName,
