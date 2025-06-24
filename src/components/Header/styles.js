@@ -65,17 +65,18 @@ export const ButtonIcon = styled.button`
 `;
 
 export const ButtonOrder = styled.div`
-  width: 100%;
-
   @media (min-width: 769px) {
-    max-width: clamp(17rem, 1rem + 15vw, 21.6rem);
-
     > .btn-order-desktop {
+      width: clamp(17rem, 1rem + 15vw, 21.6rem);
       font-size: 1.4rem;
 
       svg {
         width: clamp(2.8rem, 1.5rem + 1vw, 3.2rem);
       }
+    }
+
+    > .btn-new {
+      width: clamp(17rem, 1rem + 15vw, 21.6rem);
     }
   }
 `;

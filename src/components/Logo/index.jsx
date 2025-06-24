@@ -9,7 +9,7 @@ export function Logo() {
   const isAdmin = user?.is_admin
 
   return (
-    <Container id='logo'>
+    <Container id='logo' to='/'>
       {!isAdmin ? (
         <>
           <img src={logo} alt='Logo do Food Explorer' />

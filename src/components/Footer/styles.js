@@ -36,6 +36,10 @@ export const Content = styled.div`
     > .words {
       color: ${({ theme }) => theme.COLORS.LIGHT_700};
       font-size: 1.526rem;
+
+      span {
+        display: none;
+      }
     }
   }
 

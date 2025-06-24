@@ -58,5 +58,5 @@ export function Menu({ isOpen, setIsOpen }) {
         </div>
       </MenuItems>
     </Container>
-  );
+  )
 }

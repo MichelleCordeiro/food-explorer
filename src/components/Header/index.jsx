@@ -26,6 +26,10 @@ export function Header() {
     navigate('/')
   }
 
+  function handleNew() {
+    navigate('/new')
+  }
+
   useEffect(() => {
     if (isMenuOpen) {
       document.body.classList.add('no-scroll')
@@ -47,16 +51,7 @@ export function Header() {
           </div>
         </ButtonIcon>
 
-        <Logo to='/' />
-
-        <ButtonIcon className='btn-order-mobile mobile-only'>
-          <div className='wrapper-icon'>
-            <PiReceipt size={30} />
-            <div id='circle-red'>
-              <span>0</span>
-            </div>
-          </div>
-        </ButtonIcon>
+        <Logo />
 
         <Search className='desktop-only'>
           <div id='wrapper-input'>
@@ -70,13 +65,26 @@ export function Header() {
           </div>
         </Search>
 
-        <ButtonOrder className='desktop-only'>
-          {!isAdmin ? (
-            <Button className='btn-order-desktop' icon title='Pedidos (0)' />
-          ) : (
-            <Button className='btn-order-desktop' title='Novo prato' />
-          )}
-        </ButtonOrder>
+        {!isAdmin ? (
+          <>
+            <ButtonIcon className='btn-order-mobile mobile-only'>
+              <div className='wrapper-icon'>
+                <PiReceipt size={30} />
+                <div id='circle-red'>
+                  <span>0</span>
+                </div>
+              </div>
+            </ButtonIcon>
+
+            <ButtonOrder className='desktop-only'>
+              <Button className='btn-order-desktop' icon title='Pedidos (0)' />
+            </ButtonOrder>
+          </>
+        ) : (
+          <ButtonOrder className='desktop-only'>
+            <Button className='btn-new' title='Novo prato' onClick={handleNew} />
+          </ButtonOrder>
+        )}
 
         <Logout className='desktop-only' onClick={handleSignOut}>
           <PiSignOut />
