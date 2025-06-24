@@ -13,7 +13,7 @@ import { useAuth } from '../../hooks/auth'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
-export function Header() {
+export function Header({ setSearch }) {
   const { user, signOut } = useAuth()
   const isAdmin = user?.is_admin
 
@@ -28,6 +28,11 @@ export function Header() {
 
   function handleNew() {
     navigate('/new')
+  }
+
+  function handleSearch(event) {
+    const value = event.target.value.trimStart()
+    setSearch(value)
   }
 
   useEffect(() => {
@@ -61,6 +66,7 @@ export function Header() {
               type='search'
               icon={PiMagnifyingGlass}
               placeholder='Busque por pratos ou ingredientes'
+              onChange={handleSearch}
             />
           </div>
         </Search>

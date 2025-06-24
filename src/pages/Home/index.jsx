@@ -7,7 +7,9 @@ import { Section } from '../../components/Section'
 import { Carousel } from '../../components/Carousel'
 import { Item } from '../../components/Item'
 import { Footer } from '../../components/Footer'
+import { EmptyMessage } from '../../components/EmptyMessage'
 
+import { formatPriceToBRL } from '../../utils/utils'
 import { useAuth } from '../../hooks/auth'
 import { api } from '../../services/api'
 
@@ -18,6 +20,7 @@ export function Home() {
   const isAdmin = user?.is_admin
 
   const [dishes, setDishes] = useState({ meals: [], desserts: [], drinks: [] })
+  const [search, setSearch] = useState('')
 
   const navigate = useNavigate()
 
@@ -30,53 +33,73 @@ export function Home() {
           src: `${api.defaults.baseURL}/files/${dish.image}`,
           title: dish.name,
           description: dish.description,
-          price: dish.price.toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-          })
+          price: formatPriceToBRL(dish.price)
         }}
         isAdmin={isAdmin}
       />
     ))
   }
+
   useEffect(() => {
+    if (search.length > 0 && search.length < 2) return
+
     async function fetchDishes() {
       try {
-        const { data } = await api.get('/dishes')
+        const { data } = await api.get(`/dishes?search=${search}`)
 
         const meals = data.filter(dish => dish.category === 'Refeição')
         const desserts = data.filter(dish => dish.category === 'Sobremesa')
-        const drinks = data.filter(dish => dish.category === "Bebida")
+        const drinks = data.filter(dish => dish.category === 'Bebida')
 
         setDishes({ meals, desserts, drinks })
-
       } catch (error) {
-        console.error('Erro ao carregar item:', error.response?.data || error.message)
-        alert('Erro ao carregar os dados do item.')
+        // console.error('Erro ao carregar item:', error.response?.data || error.message)
+        const message = error.response?.data?.message || error.message
+
+        if (message.includes('Nenhum prato encontrado')) {
+          setDishes({ meals: [], desserts: [], drinks: [] })
+        } else {
+          alert('Erro inesperado ao carregar os dados do item.')
+          console.error('Erro ao carregar item:', message)
+        }
       }
     }
-    fetchDishes()
-  },[])
+
+    const timeout = setTimeout(() => {
+      fetchDishes()
+    }, 300) // <-------------
+
+    return () => clearTimeout(timeout)
+  }, [search])
 
   return (
     <Container>
-      <Header />
+      <Header setSearch={setSearch} />
       <Hero />
 
       <main>
         <Section title='Refeições'>
-          <Carousel
-            id='meals'
-            items={generateItems(dishes.meals)}
-          />
+          {dishes.meals.length === 0 ? (
+            <EmptyMessage message='Nenhuma refeição encontrada.' />
+          ) : (
+            <Carousel id='meals' items={generateItems(dishes.meals)} />
+          )}
         </Section>
 
         <Section title='Sobremesas'>
-          <Carousel id='desserts' items={generateItems(dishes.desserts)} />
+          {dishes.desserts.length === 0 ? (
+            <EmptyMessage message='Nenhuma sobremesa encontrada.' />
+          ) : (
+            <Carousel id='desserts' items={generateItems(dishes.desserts)} />
+          )}
         </Section>
 
         <Section title='Bebidas'>
-          <Carousel id='drinks' items={generateItems(dishes.drinks)} />
+          {dishes.drinks.length === 0 ? (
+            <EmptyMessage message='Nenhuma bebida encontrada.' />
+          ) : (
+            <Carousel id='drinks' items={generateItems(dishes.drinks)} />
+          )}
         </Section>
       </main>
 
