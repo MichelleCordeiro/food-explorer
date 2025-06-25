@@ -30,6 +30,8 @@ export function SignIn() {
         <Logo to='/' />
 
         <Form onSubmit={handleSignIn}>
+          <h1 className='desktop-only'>Faça login</h1>
+
           <label htmlFor='email'>E-mail</label>
           <Input
             type='email'
@@ -49,14 +51,15 @@ export function SignIn() {
           />
 
           <Button
-            title="Entrar"
+            title='Entrar'
             loading={loading}
-            type="submit"
+            type='submit'
             disabled={loading}
           />
+
+          <Link to='/register'>Criar uma conta</Link>
         </Form>
 
-        <Link to='/register'>Criar uma conta</Link>
       </Content>
     </Container>
   )
