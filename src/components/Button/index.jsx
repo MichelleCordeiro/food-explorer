@@ -2,11 +2,11 @@ import { PiReceipt } from 'react-icons/pi'
 
 import { Container } from './styles'
 
-export function Button({ title, loading, type = 'button', icon, ...rest }) {
+export function Button({ title, loading, hasError, type = 'button', icon, ...rest }) {
   return (
     <Container
       type={type}
-      disabled={loading}
+      disabled={hasError || loading}
       {...rest}
     >
       {icon && <PiReceipt size={32} />}
