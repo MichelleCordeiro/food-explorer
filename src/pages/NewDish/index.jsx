@@ -9,12 +9,13 @@ import { DishIngredient } from '../../components/DishIngredient'
 import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
+import { ErrorMessage } from '../../components/ErrorMessage'
 
 import { useAuth } from '../../hooks/auth'
 import { useDishForm } from '../../hooks/useDishForm'
 import { api } from '../../services/api'
 
-import { Container, Form, Image, Category, ErrorMessage } from './styles'
+import { Container, Form, Image, Category } from './styles'
 
 export function NewDish() {
   const { user } = useAuth()
@@ -89,13 +90,17 @@ export function NewDish() {
     }
   }
 
+  function handleBack() {
+    navigate(-1)
+  }
+
   return (
     <Container>
       <Header />
 
       <main>
         <header id='header-new'>
-          <ButtonText icon title='voltar' />
+          <ButtonText icon title='voltar' onClick={handleBack} />
           <h1>Novo prato</h1>
         </header>
 
@@ -114,7 +119,7 @@ export function NewDish() {
                     onChange={handleAddImage}
                   />
                 </div>
-                <ErrorMessage>{errors.image}</ErrorMessage>
+                <ErrorMessage errorMsg={errors.image} />
               </label>
             </Image>
 
@@ -127,7 +132,7 @@ export function NewDish() {
                 placeholder='Ex.: Salada Ceasar'
                 onChange={e => setName(e.target.value)}
               />
-              <ErrorMessage>{errors.name}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.name} />
             </div>
 
             <Category className='wrapper wrapper-category'>
@@ -145,7 +150,7 @@ export function NewDish() {
                 </select>
                 <PiCaretDown size={24} />
               </label>
-              <ErrorMessage>{errors.category}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.category} />
             </Category>
           </div>
 
@@ -171,8 +176,8 @@ export function NewDish() {
                   size={newIngredient.length / 1.1 || 5}
                 />
               </div>
-              <ErrorMessage>{errors.ingredients}</ErrorMessage>
-              <ErrorMessage>{errors.newIngredient}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.ingredients} />
+              <ErrorMessage errorMsg={errors.newIngredient} />
             </div>
 
             <div className='wrapper wrapper-price'>
@@ -185,7 +190,7 @@ export function NewDish() {
                 value={price}
                 onChange={handleChangePrice}
               />
-              <ErrorMessage>{errors.price}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.price} />
             </div>
           </div>
 
@@ -197,7 +202,7 @@ export function NewDish() {
               placeholder='Fale brevemente sobre o prato, seus ingredientes e composição'
               onChange={e => setDescription(e.target.value)}
             />
-            <ErrorMessage>{errors.description}</ErrorMessage>
+            <ErrorMessage errorMsg={errors.description} />
           </div>
 
           <div className='wrapper-button'>

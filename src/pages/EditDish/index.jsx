@@ -10,13 +10,14 @@ import { DishIngredient } from '../../components/DishIngredient'
 import { Textarea } from '../../components/Textarea'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
+import { ErrorMessage } from '../../components/ErrorMessage'
 
 import { useAuth } from '../../hooks/auth'
 import { useDishForm } from '../../hooks/useDishForm'
 import { formatPriceToBRL } from '../../utils/utils'
 import { api } from '../../services/api'
 
-import { Container, Form, Image, Category, ErrorMessage } from './styles'
+import { Container, Form, Image, Category } from './styles'
 
 export function EditDish() {
   const { user } = useAuth()
@@ -82,7 +83,7 @@ export function EditDish() {
 
       if (newImage && newImage.name !== originalFilename) {
         const imgData = new FormData()
-        imgData.append('newImage', newImage)
+        imgData.append('image', newImage)
 
         await api.patch(`/dishes/${params.id}`, imgData, {
           headers: { 'Content-Type': 'multipart/form-data' }
@@ -119,8 +120,12 @@ export function EditDish() {
     }
   }
 
+  function handleBack() {
+    navigate(-1)
+  }
+
   useEffect(() => {
-    async function fetchDish() {
+    async function fetchDishes() {
       try {
         const { data } = await api.get(`/dishes/${params.id}`)
 
@@ -141,12 +146,12 @@ export function EditDish() {
         })
 
       } catch (error) {
-        console.error('Erro ao carregar prato:', error.response?.data || error.message)
-        alert('Erro ao carregar os dados do prato.')
+        console.error('Erro ao carregar item:', error.response?.data || error.message)
+        alert('Erro ao carregar os dados do item.')
         navigate('/')
       }
     }
-    fetchDish()
+    fetchDishes()
   }, [params.id])
 
   return (
@@ -155,7 +160,7 @@ export function EditDish() {
 
       <main>
         <header id='header-new'>
-          <ButtonText icon title='voltar' />
+          <ButtonText icon title='voltar' onClick={handleBack} />
           <h1>Editar prato</h1>
         </header>
 
@@ -169,7 +174,7 @@ export function EditDish() {
                   <span>{filename || 'Selecione imagem para alterá-la'}</span>
                   <input id='image' name='image' type='file' onChange={handleAddImage} />
                 </div>
-                <ErrorMessage>{errors.image}</ErrorMessage>
+                <ErrorMessage errorMsg={errors.image} />
               </label>
             </Image>
             <Image className='wrapper wrapper-image desktop-only'>
@@ -180,7 +185,7 @@ export function EditDish() {
                   <span>{filename || 'Selecione imagem'}</span>
                   <input id='image' name='image' type='file' onChange={handleAddImage} />
                 </div>
-                <ErrorMessage>{errors.image}</ErrorMessage>
+                <ErrorMessage errorMsg={errors.image} />
               </label>
             </Image>
 
@@ -194,7 +199,7 @@ export function EditDish() {
                 placeholder='Salada Ceasar'
                 onChange={e => setName(e.target.value)}
               />
-              <ErrorMessage>{errors.name}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.name} />
             </div>
 
             <Category className='wrapper wrapper-category'>
@@ -212,7 +217,7 @@ export function EditDish() {
                 </select>
                 <PiCaretDown size={24} />
               </label>
-              <ErrorMessage>{errors.category}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.category} />
             </Category>
           </div>
 
@@ -238,8 +243,8 @@ export function EditDish() {
                   size={newIngredient.length / 1.1 || 5}
                 />
               </div>
-              <ErrorMessage>{errors.ingredients}</ErrorMessage>
-              <ErrorMessage>{errors.newIngredient}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.ingredients} />
+              <ErrorMessage errorMsg={errors.newIngredient} />
             </div>
 
             <div className='wrapper wrapper-price'>
@@ -252,7 +257,7 @@ export function EditDish() {
                 value={price}
                 onChange={handleChangePrice}
               />
-              <ErrorMessage>{errors.price}</ErrorMessage>
+              <ErrorMessage errorMsg={errors.price} />
             </div>
           </div>
 
@@ -265,7 +270,7 @@ export function EditDish() {
               placeholder='Fale brevemente sobre o prato, seus ingredientes e composição'
               onChange={e => setDescription(e.target.value)}
             />
-            <ErrorMessage>{errors.description}</ErrorMessage>
+            <ErrorMessage errorMsg={errors.description} />
           </div>
 
           <div className='wrapper-button'>

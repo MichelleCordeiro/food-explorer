@@ -1,9 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(-14px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
+import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -253,12 +248,4 @@ export const Category = styled.div`
       }
     }
   }
-`;
-
-export const ErrorMessage = styled.span`
-  color: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
-
-  font-size: 1.2rem;
-  margin-top: 0.8rem;
-  animation: ${fadeIn} 0.3s ease-out;
 `;
