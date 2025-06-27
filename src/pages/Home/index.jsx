@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { Header } from '../../components/Header'
 import { Hero } from '../../components/Hero'
@@ -16,13 +16,14 @@ import { api } from '../../services/api'
 import { Container } from './styles'
 
 export function Home() {
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search).get('search')
+
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
   const [dishes, setDishes] = useState({ meals: [], desserts: [], drinks: [] })
-  const [search, setSearch] = useState('')
-
-  const navigate = useNavigate()
+  const [search, setSearch] = useState(searchParams ? searchParams : '')
 
   function generateItems(dataArray) {
     return dataArray.map(dish => (
@@ -40,6 +41,14 @@ export function Home() {
     ))
   }
 
+  function handleSearch(searchValue) {
+    setSearch(searchValue)
+  }
+
+  useEffect(() => {
+    setSearch(searchParams || '')
+  }, [searchParams])
+
   useEffect(() => {
     if (search.length > 0 && search.length < 2) return
 
@@ -52,29 +61,19 @@ export function Home() {
         const drinks = data.filter(dish => dish.category === 'Bebida')
 
         setDishes({ meals, desserts, drinks })
-      } catch (error) {
-        // console.error('Erro ao carregar item:', error.response?.data || error.message)
-        const message = error.response?.data?.message || error.message
 
-        if (message.includes('Nenhum prato encontrado')) {
-          setDishes({ meals: [], desserts: [], drinks: [] })
-        } else {
-          alert('Erro inesperado ao carregar os dados do item.')
-          console.error('Erro ao carregar item:', message)
-        }
+      } catch (error) {
+        console.error('Erro ao carregar item:', error.response?.data || error.message)
+        setDishes({ meals: [], desserts: [], drinks: [] })
       }
     }
 
-    const timeout = setTimeout(() => {
-      fetchDishes()
-    }, 300) // <-------------
-
-    return () => clearTimeout(timeout)
+    fetchDishes()
   }, [search])
 
   return (
     <Container>
-      <Header setSearch={setSearch} />
+      <Header onSearch={handleSearch} />
       <Hero />
 
       <main>

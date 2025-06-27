@@ -13,17 +13,18 @@ import { useAuth } from '../../hooks/auth'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
-export function Header({ setSearch }) {
+export function Header({ onSearch }) {
   const { user, signOut } = useAuth()
   const isAdmin = user?.is_admin
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [search, setSearch] = useState('')
 
   const navigate = useNavigate()
 
   function handleSignOut() {
-    signOut()
     navigate('/')
+    signOut()
   }
 
   function handleNew() {
@@ -33,6 +34,7 @@ export function Header({ setSearch }) {
   function handleSearch(event) {
     const value = event.target.value.trimStart()
     setSearch(value)
+    onSearch && onSearch(value)
   }
 
   useEffect(() => {
@@ -63,9 +65,11 @@ export function Header({ setSearch }) {
             <Input
               id='search-header'
               name='search-header'
-              type='search'
+              type='text'
               icon={PiMagnifyingGlass}
               placeholder='Busque por pratos ou ingredientes'
+              // value={search}
+              // search
               onChange={handleSearch}
             />
           </div>
