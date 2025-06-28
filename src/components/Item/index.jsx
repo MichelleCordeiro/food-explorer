@@ -5,21 +5,24 @@ import { QuantityItem } from '../QuantityItem'
 import { Button } from '../Button'
 import { PiHeart, PiPencilSimpleLight } from 'react-icons/pi'
 
-import { useAuth } from '../../hooks/auth'
+import { useSearch } from '../../contexts/SearchContext'
 
 import { Container, Cart } from './styles'
 
 export function Item({ data, isAdmin }) {
   const [quantity, setQuantity] = useState(1)
+  const { clearSearch } = useSearch()
 
   const navigate = useNavigate()
 
   function handleToEdit() {
     navigate(`/edit/${data.id}`)
+    clearSearch()
   }
 
   function handleToDetails(id) {
     navigate(`/details/${id}`)
+    clearSearch()
   }
 
   return (

@@ -49,13 +49,25 @@ export const MenuItems = styled.div`
     &:first-child {
       margin-block: 3.6rem;
     }
-  }
 
-  div {
+    > div:first-child {
+      &:focus-within {
+        border: 1px solid ${({ theme }) => theme.COLORS.LIGHT_500};
+      }
+
+      input {
+        &:focus {
+          border: none;
+        }
+      }
+    }
+
     > .wrapper-menus {
       display: flex;
       flex-direction: column;
       gap: 1.6rem;
+
+      border: none;
 
       > .line {
         border-bottom: 1px solid ${({ theme }) => theme.COLORS.DARK_1000};

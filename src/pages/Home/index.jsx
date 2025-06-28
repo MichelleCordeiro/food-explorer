@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { Header } from '../../components/Header'
 import { Hero } from '../../components/Hero'
@@ -10,20 +9,18 @@ import { Footer } from '../../components/Footer'
 import { EmptyMessage } from '../../components/EmptyMessage'
 
 import { formatPriceToBRL } from '../../utils/utils'
+import { useSearch } from '../../contexts/SearchContext'
 import { useAuth } from '../../hooks/auth'
 import { api } from '../../services/api'
 
 import { Container } from './styles'
 
 export function Home() {
-  const location = useLocation()
-  const searchParams = new URLSearchParams(location.search).get('search')
-
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
   const [dishes, setDishes] = useState({ meals: [], desserts: [], drinks: [] })
-  const [search, setSearch] = useState(searchParams ? searchParams : '')
+  const { search, setIsMenuOpen } = useSearch()
 
   function generateItems(dataArray) {
     return dataArray.map(dish => (
@@ -41,17 +38,11 @@ export function Home() {
     ))
   }
 
-  function handleSearch(searchValue) {
-    setSearch(searchValue)
-  }
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [setIsMenuOpen])
 
   useEffect(() => {
-    setSearch(searchParams || '')
-  }, [searchParams])
-
-  useEffect(() => {
-    if (search.length > 0 && search.length < 2) return
-
     async function fetchDishes() {
       try {
         const { data } = await api.get(`/dishes?search=${search}`)
@@ -68,12 +59,14 @@ export function Home() {
       }
     }
 
-    fetchDishes()
+    if (search.length === 0 || search.length >= 2) {
+      fetchDishes()
+    }
   }, [search])
 
   return (
     <Container>
-      <Header onSearch={handleSearch} />
+      <Header />
       <Hero />
 
       <main>

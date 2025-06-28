@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { LuMenu } from 'react-icons/lu'
 import { PiReceipt, PiSignOut, PiMagnifyingGlass } from 'react-icons/pi'
@@ -9,18 +9,21 @@ import { Input } from '../Input'
 import { Button } from '../Button'
 import { Menu } from '../Menu'
 
+import { useSearch } from '../../contexts/SearchContext'
 import { useAuth } from '../../hooks/auth'
 
 import { Container, Content, ButtonIcon, Search, ButtonOrder, Logout } from './styles'
 
-export function Header({ onSearch }) {
+let timeoutId
+
+export function Header() {
   const { user, signOut } = useAuth()
   const isAdmin = user?.is_admin
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [search, setSearch] = useState('')
+  const { search, setSearch, isMenuOpen, setIsMenuOpen } = useSearch()
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   function handleSignOut() {
     navigate('/')
@@ -34,7 +37,6 @@ export function Header({ onSearch }) {
   function handleSearch(event) {
     const value = event.target.value.trimStart()
     setSearch(value)
-    onSearch && onSearch(value)
   }
 
   useEffect(() => {
@@ -48,6 +50,18 @@ export function Header({ onSearch }) {
       document.body.classList.remove('no-scroll')
     }
   }, [isMenuOpen])
+
+  useEffect(() => {
+    if (timeoutId) clearTimeout(timeoutId)
+
+    if (search.length > 1 && location.pathname !== '/') {
+      timeoutId = setTimeout(() => {
+        navigate('/')
+      }, 500)
+    }
+
+    return () => clearTimeout(timeoutId)
+  }, [search, location.pathname, navigate])
 
   return (
     <Container>
@@ -68,8 +82,7 @@ export function Header({ onSearch }) {
               type='text'
               icon={PiMagnifyingGlass}
               placeholder='Busque por pratos ou ingredientes'
-              // value={search}
-              // search
+              value={search}
               onChange={handleSearch}
             />
           </div>
