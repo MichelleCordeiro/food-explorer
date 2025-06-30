@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, A11y, EffectFade } from 'swiper/modules'
+import { Navigation, A11y, EffectFade, Autoplay } from 'swiper/modules'
+
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
 
 import { Container, NavButton } from './styles'
@@ -12,12 +13,21 @@ import 'swiper/css/effect-fade'
 export function Carousel({ id, items = [] }) {
   const prevRef = useRef(null)
   const nextRef = useRef(null)
+  const [swiperReady, setSwiperReady] = useState(false)
+
+  useEffect(() => {
+    setSwiperReady(true)
+  }, [])
 
   return (
     <Container className={`carousel-${id}`}>
       <Swiper
         className='swiper'
-        modules={[Navigation, A11y, EffectFade]}
+        modules={[Navigation, A11y, EffectFade, Autoplay]}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false
+        }}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current
