@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { PiEyeClosed, PiEyeLight } from 'react-icons/pi'
 
 import { Logo } from '../../components/Logo'
 import { Button } from '../../components/Button'
@@ -13,6 +14,7 @@ export function SignIn() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
   const { signIn } = useAuth()
 
@@ -22,6 +24,10 @@ export function SignIn() {
 
     await signIn({ email, password })
     setLoading(false)
+  }
+
+  function handleTogglePassword() {
+    setShowPassword(!showPassword)
   }
 
   return (
@@ -43,12 +49,16 @@ export function SignIn() {
 
           <label htmlFor='password'>Senha</label>
           <Input
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             name='password'
             id='password'
             placeholder='No mínimo 6 caracteres'
             onChange={e => setPassword(e.target.value)}
           />
+
+          <span onClick={handleTogglePassword}>
+            {showPassword ? <PiEyeLight size={22} /> : <PiEyeClosed size={22} />}
+          </span>
 
           <Button
             title='Entrar'
@@ -59,7 +69,6 @@ export function SignIn() {
 
           <Link to='/register'>Criar uma conta</Link>
         </Form>
-
       </Content>
     </Container>
   )

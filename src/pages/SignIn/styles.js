@@ -81,6 +81,8 @@ export const Form = styled.form`
   text-align: center;
   color: ${({ theme }) => theme.COLORS.LIGHT_400};
 
+  position: relative;
+
   > label {
     padding-bottom: 0.8rem;
   }
@@ -88,6 +90,12 @@ export const Form = styled.form`
   button {
     height: 4.8rem;
     margin-bottom: 3.2rem;
+  }
+
+  span {
+    position: absolute;
+    right: 1.6rem;
+    top: 43%;
   }
 
   @media (min-width: 769px) {
@@ -110,6 +118,11 @@ export const Form = styled.form`
     input {
       border: 1px solid ${({ theme }) => theme.COLORS.LIGHT_100};
       border-radius: 0.8rem;
+    }
+
+    span {
+      right: clamp(5rem, 0.5rem + 4.5vw, 8rem);
+      top: 56.5%;
     }
   }
 `;
