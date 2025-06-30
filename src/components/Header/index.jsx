@@ -125,5 +125,5 @@ export function Header() {
         <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </Content>
     </Container>
-  );
+  )
 }

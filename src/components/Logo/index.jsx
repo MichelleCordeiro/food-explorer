@@ -1,6 +1,6 @@
 import logo from '../../assets/logo.png'
 
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { useAuth } from '../../hooks/auth'
 import { Container } from './styles'
@@ -13,18 +13,16 @@ export function Logo() {
 
   const { setSearch } = useSearch()
 
-  const navigate = useNavigate()
   const location = useLocation()
 
   function handleClick() {
     if (location.pathname !== '/') {
       setSearch('')
     }
-    navigate(to = '/')
   }
 
   return (
-    <Container id='logo' onClick={handleClick}>
+    <Container id='logo' onClick={handleClick} to="/">
       {!isAdmin ? (
         <>
           <img src={logo} alt='Logo do Food Explorer' />
