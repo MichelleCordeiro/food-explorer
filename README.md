@@ -46,7 +46,7 @@
 
 <h3 id="Deploy"> 🌐 Deploy </h3>
 
-This front-end is hosted on [Netlify]() and can be accessed [here]().
+This front-end is hosted on [Netlify](https://www.netlify.com/) and can be accessed [here](food-explorer-mic.netlify.app).
 
 To generate the authentication token on the sessions route:
 - register as a regular user, or
@@ -74,19 +74,18 @@ This project was developed using the following technologies and tools:
   - <code><img width="35" height="35" alt="css logo" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png"> CSS</code>
   - <code><img height="35" alt="vitejs logo" src="https://i.postimg.cc/y6mVYLYK/vite-js.png">ViteJS</code>
   - <code><img height="35" alt="react logo" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png"> ReactJS</code>
-  - <code><img width="50" height="16" alt="axios logo" src="./src//assets/axios.png"></code>
   - <code><img width="28" height="28" alt="swiper logo" src="./src//assets/swiper-logo.png"> Swiper</code>
 
     </td>
     <td>
 
-      - <code><img height="40" alt="nodejs logo" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/git/git.png"></code>
       - react-router-dom (useNavigate, useLocation, useParams, Link )
       - react hooks (useState, useEffect, useMemo, useRef)
       - context: global state (createContext, useContext)
       - react-icons
       - styled-components
       - localStorage
+      - axios
       - API service
     </td>
   </tr>
