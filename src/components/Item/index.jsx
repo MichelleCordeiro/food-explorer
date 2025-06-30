@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { QuantityItem } from '../QuantityItem'
 import { Button } from '../Button'
-import { PiHeart, PiPencilSimpleLight } from 'react-icons/pi'
+import { PiHeartFill, PiPencilSimpleLineFill } from 'react-icons/pi'
 
 import { useSearch } from '../../contexts/SearchContext'
 
@@ -35,7 +35,7 @@ export function Item({ data, isAdmin }) {
       {isAdmin ? (
         <>
           <div id='wrapper-heart'>
-            <PiPencilSimpleLight size={'2.4rem'} onClick={handleToEdit} />
+            <PiPencilSimpleLineFill size={'2.4rem'} onClick={handleToEdit} />
           </div>
 
           <div id='wrapper-infos' onClick={() => handleToDetails(data.id)}>
@@ -49,7 +49,7 @@ export function Item({ data, isAdmin }) {
       ) : (
         <>
           <div id='wrapper-heart'>
-            <PiHeart size={'2.4rem'} />
+            <PiHeartFill size={'2.4rem'} />
           </div>
 
           <div id='wrapper-infos' onClick={() => handleToDetails(data.id)}>

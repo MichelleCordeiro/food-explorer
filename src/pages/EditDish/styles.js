@@ -114,6 +114,10 @@ export const Form = styled.form`
     > .btn-delete {
       max-width: 16rem;
       background-color: ${({ theme }) => theme.COLORS.DARK_800};
+
+      &:hover {
+        border: dotted 0.3rem ${({ theme }) => theme.COLORS.TINTS_TOMATO_100};
+      }
     }
 
     > .btn-save {

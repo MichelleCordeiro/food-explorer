@@ -22,6 +22,35 @@ export const Container = styled.div`
     right: 1.6rem;
     top: 1.6rem;
     cursor: pointer;
+
+    fill: transparent;
+    stroke-width: 2rem;
+    stroke: ${({ theme }) => theme.COLORS.LIGHT_300};
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      fill: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
+      stroke: ${({ theme }) => theme.COLORS.TINTS_TOMATO_400};
+
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+      }
+
+      70% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+      }
+    }
   }
 
   > #wrapper-infos {
@@ -34,6 +63,14 @@ export const Container = styled.div`
       width: clamp(8.8rem, 0.5rem + 19vw, 17.6rem);
       height: clamp(8.8rem, 0.5rem + 19vw, 17.6rem);
       border-radius: 50%;
+      object-fit: cover;
+
+      transition: transform 0.3s ease-in-out;
+
+      &:hover {
+        transform: scale(1.05) rotate(2deg);
+        filter: saturate(1.3);
+      }
     }
 
     > h3 {
@@ -99,12 +136,12 @@ export const Cart = styled.div`
   > .quantity {
     padding-bottom: 1.6rem;
 
-    > p {
+    > span {
       font-size: 1.6rem;
     }
 
     > button svg {
-      font-size: 1.8rem;
+      font-size: 2.4rem;
     }
   }
 
@@ -120,6 +157,10 @@ export const Cart = styled.div`
 
     > .quantity {
       padding-bottom: 0;
+
+      > span {
+        font-size: 2rem;
+      }
     }
 
     > .btn-cart {

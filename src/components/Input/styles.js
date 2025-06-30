@@ -14,7 +14,7 @@ export const Container = styled.div`
   border-radius: 0.8rem;
   margin-bottom: 3.2rem;
 
-  transition: border 0.2s ease;
+  transition: border 0.5s ease-in-out;
 
   > input {
     width: 100%;

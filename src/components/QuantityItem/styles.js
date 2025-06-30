@@ -11,23 +11,20 @@ export const Container = styled.div`
     font-family: 'Roboto', sans-serif;
   }
 
-  > .quant {
-    width: 1.5rem;
-  }
-
   > button {
     background: none;
 
     color: ${({ theme }) => theme.COLORS.LIGHT_100};
-    transition: transform 1s ease-out;
 
     > svg {
       display: flex;
       align-items: center;
-      font-size: 2rem;
+      font-size: 2.7rem;
+
+      transition: transform 0.5s ease-in-out;
 
       &:hover {
-        transform: scale(1.1);
+        transform: scale(1.2);
       }
 
       &:disabled {
@@ -38,7 +35,7 @@ export const Container = styled.div`
 
   @media (min-width: 769px) {
     > button svg {
-      font-size: 1.8rem;
+      font-size: 2.4rem;
     }
   }
 `;
