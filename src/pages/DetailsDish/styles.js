@@ -10,6 +10,10 @@ export const Container = styled.div`
 
     > .wrapper-button {
       padding-top: calc(11.4rem + 3.657rem);
+
+      > button svg {
+        font-size: 3.2rem;
+      }
     }
   }
 
@@ -36,17 +40,20 @@ export const Dish = styled.div`
   align-items: center;
   text-align: center;
   gap: 1.6rem;
+  padding-top: 1.6rem;
   padding-bottom: calc(7.7rem + 5.414rem);
 
   > img {
-    width: 26.4rem;
+    width: 26.3rem;
+    height: 26.3rem;
+    border-radius: 50%;
   }
 
   @media (min-width: 769px) {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     text-align: start;
     gap: 4.783rem;
 
@@ -54,7 +61,8 @@ export const Dish = styled.div`
     padding-bottom: calc(7.7rem + 15.54rem);
 
     > img {
-      width: 36rem;
+      width: 39rem;
+      height: 39rem;
     }
   }
 `;
@@ -63,17 +71,12 @@ export const DishContent = styled.div`
   > h1 {
     font-size: 2.704rem;
     font-weight: 500;
-    padding-block: 1.6rem 2.4rem;
+    padding-bottom: 2.4rem;
   }
 
   > p {
     font-size: 1.65rem;
     line-height: 160%;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   > .wrapper-tags {
@@ -146,7 +149,7 @@ export const DishContent = styled.div`
       }
 
       > .btn-order-user-desktop {
-        max-width: 16.2rem;
+      width: fit-content;
         display: flex;
         justify-content: center;
       }

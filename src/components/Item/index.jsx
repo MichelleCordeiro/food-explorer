@@ -25,6 +25,11 @@ export function Item({ data, isAdmin }) {
     clearSearch()
   }
 
+
+  function handleToCart() {
+    navigate(`/cart`)
+  }
+
   return (
     <Container $isAdmin={isAdmin}>
       {isAdmin ? (
@@ -57,10 +62,10 @@ export function Item({ data, isAdmin }) {
 
           <Cart>
             <QuantityItem quantity={quantity} setQuantity={setQuantity} />
-            <Button className='btn-cart' title='incluir' />
+            <Button className='btn-cart' title='incluir' onClick={handleToCart} />
           </Cart>
         </>
       )}
     </Container>
-  )
+  );
 }

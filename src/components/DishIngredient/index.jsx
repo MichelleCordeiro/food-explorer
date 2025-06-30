@@ -7,7 +7,7 @@ export function DishIngredient({ isNew, value, onClick, ...rest }) {
   return (
     <Container $isNew={isNew}>
       <input
-        id='ingredient'
+        // id='ingredient'
         name='ingredient'
         type='text'
         value={value}

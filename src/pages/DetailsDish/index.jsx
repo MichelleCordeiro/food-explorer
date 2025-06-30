@@ -8,12 +8,13 @@ import { QuantityItem } from '../../components/QuantityItem'
 import { Button } from '../../components/Button'
 import { Footer } from '../../components/Footer'
 
+import { formatPriceToBRL } from '../../utils/utils'
 import { useAuth } from '../../hooks/auth'
 import { api } from '../../services/api'
 
 import { Container, Dish, DishContent } from './styles'
 
-export function DishDetails() {
+export function DetailsDish() {
   const { user } = useAuth()
   const isAdmin = user?.is_admin
 
@@ -23,18 +24,29 @@ export function DishDetails() {
   const navigate = useNavigate()
   const params = useParams()
 
+  function handleToEdit() {
+    navigate(`/edit/${data.id}`)
+  }
+
+  function handleToCart() {
+    navigate(`/cart`)
+  }
+
+  function handleBack() {
+    navigate(-1)
+  }
+
   useEffect(() => {
-    async function fetchDish() {
+    async function fetchDishes() {
       try {
         const response = await api.get(`/dishes/${params.id}`)
         setData(response.data)
-
       } catch (error) {
         console.error('Erro ao carregar item:', error.response?.data || error.message)
         alert('Erro ao carregar os dados do item.')
       }
     }
-    fetchDish()
+    fetchDishes()
   }, [])
 
   return (
@@ -43,7 +55,7 @@ export function DishDetails() {
 
       <main>
         <div className='wrapper-button'>
-          <ButtonText icon title='voltar' />
+          <ButtonText icon title='voltar' onClick={handleBack} />
         </div>
 
         {data && (
@@ -71,11 +83,13 @@ export function DishDetails() {
                       btn-order-details
                       btn-order-admin-mobile'
                       title='Editar prato'
+                      onClick={handleToEdit}
                     />
                     <Button
                       className='desktop-only btn-order-details
                       btn-order-admin-desktop'
                       title='Editar prato'
+                      onClick={handleToEdit}
                     />
                   </div>
                 </>
@@ -88,13 +102,16 @@ export function DishDetails() {
                       btn-order-details
                       btn-order-user-mobile'
                       icon
-                      title={`pedir ∙ R$ ${data.price * quantity}`}
+                      title={`pedir ∙ ${formatPriceToBRL(data.price * quantity)}`}
+                      onClick={''}
                     />
                     <Button
-                      className='desktop-only btn-order-details
+                      className='desktop-only
+                      btn-order-details
                       btn-order-user-desktop'
                       icon
-                      title={`incluir ∙ R$ ${data.price * quantity}`}
+                      title={`incluir ∙ ${formatPriceToBRL(data.price * quantity)}`}
+                      onClick={handleToCart}
                     />
                   </div>
                 </>
@@ -105,5 +122,5 @@ export function DishDetails() {
       </main>
       <Footer />
     </Container>
-  )
+  );
 }

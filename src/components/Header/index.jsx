@@ -34,6 +34,10 @@ export function Header() {
     navigate('/new')
   }
 
+  function handleToCart() {
+    navigate(`/cart`)
+  }
+
   function handleSearch(event) {
     const value = event.target.value.trimStart()
     setSearch(value)
@@ -100,7 +104,12 @@ export function Header() {
             </ButtonIcon>
 
             <ButtonOrder className='desktop-only'>
-              <Button className='btn-order-desktop' icon title='Pedidos (0)' />
+              <Button
+                className='btn-order-desktop'
+                icon
+                title='Pedidos (0)'
+                onClick={handleToCart}
+              />
             </ButtonOrder>
           </>
         ) : (
@@ -116,5 +125,5 @@ export function Header() {
         <Menu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </Content>
     </Container>
-  )
+  );
 }

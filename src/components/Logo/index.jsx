@@ -28,7 +28,7 @@ export function Logo() {
       {!isAdmin ? (
         <>
           <img src={logo} alt='Logo do Food Explorer' />
-          <span className='words'>Food Explorer</span>
+          <span className='words'>food explorer</span>
         </>
       ) : (
         <>
