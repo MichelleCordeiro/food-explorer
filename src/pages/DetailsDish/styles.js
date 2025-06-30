@@ -119,6 +119,11 @@ export const DishContent = styled.div`
     > .btn-order-admin-mobile {
       max-width: 100%;
     }
+
+    > .btn-order-user-desktop,
+      .btn-order-admin-desktop {
+      display: none;
+    }
   }
 
   @media (min-width: 769px) {
@@ -149,7 +154,7 @@ export const DishContent = styled.div`
       }
 
       > .btn-order-user-desktop {
-      width: fit-content;
+        width: fit-content;
         display: flex;
         justify-content: center;
       }
@@ -159,6 +164,11 @@ export const DishContent = styled.div`
 
         display: flex;
         justify-content: center;
+      }
+
+      > .btn-order-user-mobile,
+        .btn-order-admin-mobile {
+        display: none;
       }
     }
   }

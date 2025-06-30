@@ -86,7 +86,8 @@ export function DetailsDish() {
                       onClick={handleToEdit}
                     />
                     <Button
-                      className='desktop-only btn-order-details
+                      className='desktop-only
+                      btn-order-details
                       btn-order-admin-desktop'
                       title='Editar prato'
                       onClick={handleToEdit}
@@ -122,5 +123,5 @@ export function DetailsDish() {
       </main>
       <Footer />
     </Container>
-  );
+  )
 }
