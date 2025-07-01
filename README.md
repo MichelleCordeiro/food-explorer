@@ -46,7 +46,7 @@
 
 <h3 id="Deploy"> 🌐 Deploy </h3>
 
-This front-end is hosted on [Netlify](https://www.netlify.com/) and can be accessed [here](food-explorer-mic.netlify.app).
+This front-end is hosted on [Netlify](https://www.netlify.com/) and can be accessed [here](https://food-explorer-mic.netlify.app/).
 
 To generate the authentication token on the sessions route:
 - register as a regular user, or
